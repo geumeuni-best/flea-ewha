@@ -1,0 +1,19 @@
+<!-- 판매 요청 조회 화면 -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLEA:EWHA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/request.css') }}">
+    <script src="{{ url_for('static', filename='js/request.js') }}" defer></script>
+</head>
+<body>
+  {% extends "index.html" %}
+
+  {% block section %}
+    <h1>판매 요청 조회 화면</h1>
+  {% endblock section %}
+</body>
+

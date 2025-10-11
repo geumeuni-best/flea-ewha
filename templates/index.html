@@ -1,0 +1,164 @@
+<!-- 홈화면 -->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLEA:EWHA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+    <!-- 상단 초록색 바 -->
+    <div class="navbar-top">
+        <div class="navbar-top-right">
+            <a href="/mypage">마이페이지</a>
+            <span>|</span>
+            <a href="#">로그아웃</a>
+        </div>
+    </div>
+
+    <!-- 메인 네비게이션 -->
+    <nav class="navbar">
+        <div class="navbar__logo">
+          <a href="/">
+            <img src="{{ url_for('static', filename='image/흰색 배경 로고.png') }}" alt="FLEA:EWHA 로고">
+            <span>FLEA:EWHA</span>
+          </a>
+        </div>
+
+        <ul class="navbar__menu">
+            <li><a href="/reg_items">상품 등록</a></li>
+            <li><a href="/list">상품 조회</a></li>
+            <li><a href="/review">리뷰 조회</a></li>
+            <li><a href="/request">판매 요청</a></li>
+        </ul>
+
+        <div class="navbar__search">
+            <input type="text" placeholder="찾으시는 상품을 입력하세요.">
+            <img src="{{ url_for('static', filename='image/검색 돋보기.png') }}" alt="검색 돋보기 아이콘" class="search-btn">
+        </div>
+    </nav>
+
+    {% block section %}
+    <section class="home">
+      <!-- 히어로 배너 -->
+      <div class="hero">
+        <img src="{{ url_for('static', filename='image/홈배너.png') }}" alt="홈 배너 이미지" class="hero__img">
+        <div class="hero__text">
+          <h1>오픈 기념! 11월 한 달간 모든 배송비 무료</h1>
+        </div>
+      </div>
+
+      <!-- 최신 상품 -->
+      <div class="container">
+        <h2 class="section-title">최신 상품</h2>
+
+        <ul class="product-grid">
+          <!-- 카드 1 -->
+          <li class="card">
+            <img src="{{ url_for('static', filename='image/니트 가방.png') }}" alt="니트 가방" class="card__thumb">
+            <div class="card__meta">
+              <div class="card__row">
+                <span class="badge">[new !]</span>
+                <span class="card__name">니트 가방</span>
+              </div>
+              <div class="card__row">
+                <span class="card__price">34,000원</span>
+                <span class="stars">★★★★★</span>
+                <span class="reviews">(45)</span>
+              </div>
+              <div class="card__row">
+                <span class="hearts">♡ 235</span>
+              </div>
+            </div>
+          </li>
+
+          <!-- 카드 2 -->
+          <li class="card">
+            <img src="{{ url_for('static', filename='image/수제 비누 2p.png') }}" alt="수제 비누 2p" class="card__thumb">
+            <div class="card__meta">
+              <div class="card__row">
+                <span class="badge">[new !]</span>
+                <span class="card__name">수제 비누 2p</span>
+              </div>
+              <div class="card__row">
+                <span class="card__price">9,000원</span>
+                <span class="stars">★★★★☆</span>
+                <span class="reviews">(11)</span>
+              </div>
+              <div class="card__row">
+                <span class="hearts">♡ 189</span>
+              </div>
+            </div>
+          </li>
+
+          <!-- 카드 3 -->
+          <li class="card">
+            <img src="{{ url_for('static', filename='image/가죽 귀걸이.png') }}" alt="가죽 귀걸이" class="card__thumb">
+            <div class="card__meta">
+              <div class="card__row">
+                <span class="badge">[new !]</span>
+                <span class="card__name">가죽 귀걸이</span>
+              </div>
+              <div class="card__row">
+                <span class="card__price">14,500원</span>
+                <span class="stars">★★★☆☆</span>
+                <span class="reviews">(21)</span>
+              </div>
+              <div class="card__row">
+                <span class="hearts">♡ 144</span>
+              </div>
+            </div>
+          </li>
+
+          <!-- 카드 4 -->
+          <li class="card">
+            <img src="{{ url_for('static', filename='image/포근한 스웨터.png') }}" alt="포근한 스웨터" class="card__thumb">
+            <div class="card__meta">
+              <div class="card__row">
+                <span class="badge">[new !]</span>
+                <span class="card__name">포근한 스웨터</span>
+              </div>
+              <div class="card__row">
+                <span class="card__price">32,000원</span>
+                <span class="stars">★★★★☆</span>
+                <span class="reviews">(122)</span>
+              </div>
+              <div class="card__row">
+                <span class="hearts">♡ 667</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+    {% endblock section %}
+
+    <footer class="site-footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <img src="{{ url_for('static', filename='image/녹색 배경 로고.png') }}" alt="FLEA:EWHA 로고" class="footer__logo">
+                <h2 class="footer__title">FLEA:EWHA</h2>
+            </div>
+
+            <p class="footer__desc">
+                이화의 마음으로 빚은 수공예품,<br>
+                학생들의 정성과 창작이 담긴 작품들이<br>
+                FLEA:EWHA에서 새롭게 이어집니다.
+            </p>
+
+            <a class="footer__github" href="https://github.com/geumeuni-best/flea-ewha" target="_blank" rel="noopener">
+                <img src="{{ url_for('static', filename='image/하단바 깃허브.png') }}" alt="GitHub 아이콘">
+            </a>
+
+            <hr class="footer__divider">
+
+            <p class="footer__copy">
+                © 2025 FLEA:EWHA, Open Source Project under MIT License
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

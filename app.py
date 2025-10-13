@@ -41,11 +41,10 @@ def reg_item_submit():
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
-
-        image_file=request.files["file"]
-        image_file.save("static/images/{}".format(image_file.filename))
-        data=request.form
-        return render_template("submit_item_result.html", data=data, img_path="static/images/{}".format(image_file.filename))
+    image_file=request.files["file"]
+    image_file.save("static/images/{}".format(image_file.filename))
+    data=request.form
+    return render_template("submit_item_result.html", data=data, img_path="static/images/{}".format(image_file.filename))
 
 # 리뷰 등록
 @application.route("/reg_reviews")

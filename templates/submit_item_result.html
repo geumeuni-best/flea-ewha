@@ -3,47 +3,47 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLEA:EWHA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/submit_item_result.css') }}">
-    <script src="{{ url_for('static', filename='js/submit_item_result.js') }}" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLEA:EWHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/submit_item_result.css') }}">
+  <script src="{{ url_for('static', filename='js/submit_item_result.js') }}" defer></script>
 </head>
 <body>
   {% extends "index.html" %}
 
   {% block section %}
   <p>
-      Seller {{data.seller}} sells {{data.name}} and its category is {{data.category}}.
+    Seller {{data.seller}} sells {{data.name}} and its category is {{data.category}}.
 
-      The item is
-      {% if data['status'] == "lnew" %}
-          likely new!
-      {% endif %}
-      {% if data['status'] == "new" %}
-          new!
-      {% endif %}
-      {% if data['status'] == "used" %}
-          used!
-      {% endif %}
+    The item is
+    {% if data['status'] == "lnew" %}
+      likely new!
+    {% endif %}
+    {% if data['status'] == "new" %}
+      new!
+    {% endif %}
+    {% if data['status'] == "used" %}
+      used!
+    {% endif %}
   </p>
 
   <img src="{{img_path}}"/>
 
   <p>
-      Contact via {{data.email}} or {{data.phone}} if you are interested!
-      The address is {{data.addr}}
+    Contact via {{data.email}} or {{data.phone}} if you are interested!
+    The address is {{data.addr}}
   </p>
   <p>
-      For payment, the credit card is
-      {% if data['card'] == "Y" %}
-          accepted!
-      {% endif %}
-      {% if data['card'] == "N" %}
-          NOT accepted!
-      {% endif %}
+    For payment, the credit card is
+    {% if data['card'] == "Y" %}
+      accepted!
+    {% endif %}
+    {% if data['card'] == "N" %}
+      NOT accepted!
+    {% endif %}
   </p>
 
   {% endblock section %}
 </body>
-
+</html>

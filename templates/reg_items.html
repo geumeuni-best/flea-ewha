@@ -1,19 +1,81 @@
-<!-- 상품 등록 화면 -->
+<!--상품 등록 화면-->
 
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLEA:EWHA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/reg_items.css') }}">
-    <script src="{{ url_for('static', filename='js/reg_items.js') }}" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLEA:EWHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reg_items.css') }}">
+  <script src="{{ url_for('static', filename='js/reg_items.js') }}" defer></script>
 </head>
+
 <body>
   {% extends "index.html" %}
 
   {% block section %}
-    <h1>상품 등록 화면</h1>
+  <h1>상품 등록 화면</h1>
+  <form action="/submit_item_post" method="post" enctype="multipart/form-data">
+    <div><br><br>
+      <label for="name">Item name: </label>
+      <input type="text" name="name" id="name" required><br><br>
+    </div>
+    <div>
+      <label for="seller">Seller ID:</label>
+      <input type="text" name="seller" id="seller" required><br><br>
+    </div>
+    <div>
+      <label for="addr">Address:</label>
+      <input type="text" name="addr" id="addr" required><br><br>
+    </div>
+    <div>
+      <!-- for속성은 onput의 id와 일치해야 하지 않나용? 근데 ppt는 이렇게 작성되어 있습니다.-->
+      <label for="tel">Email:</label>
+      <input type="text" name="email" id="email" required><br><br>
+    </div>
+    <div>
+      <label for="category">Category:</label>
+      <br>
+      <select id="category" name="category">
+        <option value="Clothes" selected>Clothes</option>
+        <option value="Beauty">Beauty</option>
+        <option value="Books">Books</option>
+        <option value="Furniture">Furniture</option>
+        <option value="Electronics">Electronics</option>
+        <option value="ETC">ETC</option>
+      </select><br><br>
+    </div>
+    <div>
+      <label for="card">Credit Card?(Y/N):</label>
+      <br>
+      <select id="card" name="card">
+        <option value="Y" selected>Yes</option>
+        <option value="N">No</option>
+      </select><br><br>
+    </div>
+    <div>
+      <label for="status">Status?</label>
+      <br>
+      <select id="status" name="status">
+        <option value="new" selected>New</option>
+        <option value="lnew">Likely New</option>
+        <option value="used">Used</option>
+      </select><br><br>
+    </div>
+    <div>
+      <label for="phone">Phone:</label>
+      <input type="text" name="phone" id="phone"><br><br>
+    </div>
+    <div>
+      <label for="img">Representative Image upload : </label>
+      <input type="file" name="file" /><br><br>
+    </div>
+    <div>
+      <input type="submit" value="Submit!"><br><br>
+    </div>
+  </form>
   {% endblock section %}
 </body>
 
+</html>

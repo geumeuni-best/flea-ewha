@@ -1,29 +1,29 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Pretendard';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Pretendard';
 }
 
 /* 상단 초록색 바 */
 .navbar-top {
-    background-color: #1F4023;
-    width: 100%;
-    height: 49px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 210px;
+  background-color: #1F4023;
+  width: 100%;
+  height: 49px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 200px;
 }
 
 .navbar-top-right a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
 }
 
 .navbar-top-right span {
-    color: white;
+  color: white;
 }
 
 /* 네비게이션 바 */
@@ -69,13 +69,12 @@
 }
 
 .navbar__menu a {
-    text-decoration: none;
-    color: #000;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
 }
-
 
 /* 검색창 */
 .navbar__search {
@@ -94,15 +93,15 @@
 }
 
 .navbar__search input {
-    width: 232px;
-    height: 38px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    color: #7A7A7A;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
+  width: 232px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #7A7A7A;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
 }
 
 .navbar__search input::placeholder {
@@ -110,12 +109,12 @@
 }
 
 .search-btn {
-    position: absolute;
-    right: 16px;
-    cursor: pointer;
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
 }
 
-/* 하단바*/
+/* 하단바 */
 .site-footer {
   width: 100%;
   background: #1F4023;

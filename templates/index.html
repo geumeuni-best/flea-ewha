@@ -13,9 +13,15 @@
   <!-- 상단 초록색 바 -->
   <div class="navbar-top">
     <div class="navbar-top-right">
+      {% if session['id'] %}
       <a href="/mypage">마이페이지</a>
       <span>|</span>
       <a href="#">로그아웃</a>
+      {% else %}
+      <a href="/login">로그인</a>
+      <span>|</span>
+      <a href="/signup">회원가입</a>
+      {% endif %}
     </div>
   </div>
 

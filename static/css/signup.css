@@ -1,0 +1,162 @@
+.signup-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  background-color: #ffffff;
+}
+
+.signup-card {
+  display: flex;
+  width: 544px;
+  padding: 41px 56px;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background: #FFF;
+  box-shadow: 0 0 25px 10px rgba(31, 64, 35, 0.14);
+}
+
+.signup-title {
+  color: #000;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.form-row.with-action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.form-row.with-action .form-input {
+  margin-top: 8px;
+  padding-right: 120px;
+}
+
+#btn-check-username {
+  margin-left: 348px;
+  height: 56px;
+  padding: 0 14px;
+  margin-top: -64px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(31, 64, 35, 0.50);
+  color: #FFF;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+#btn-check-username:hover { 
+  background:#00462A;
+  cursor: pointer;
+}
+
+.form-label {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.form-placeholder {
+  color: #9096B2;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.opt {
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+.form-input {
+  height: 56px;
+  padding: 0 16px;
+  align-self: stretch;
+  border-radius: 10px;
+  border: 1px solid #D9D9D9;
+  background: #FFF;
+  font-size: 16px;
+  color: #9096B2;
+  font-family: 'Pretendard', sans-serif;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #00462A;
+  box-shadow: 0 0 0 2px rgba(0, 70, 42, 0.1);
+}
+
+.btn-primary {
+  display: flex;
+  height: 68px;
+  width: 432px;
+  padding: 19px 180px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: rgba(31, 64, 35, 0.70);
+  border: none;
+  color: #ffffff;
+  font-family: Pretendard;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.btn-primary:hover {
+  background:#00462A;
+  cursor: pointer;
+}
+
+.signup-help {
+  margin-top: 30px;
+  text-align: center;
+  color: #9096B2;
+  font-family: Pretendard;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.link-login {
+  color: #9096B2;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration: none;
+}
+
+.link-login:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+

@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from database import DBhandler
+import hashlib
 import sys
 
 application = Flask(__name__)
+application.config["SECRET_KEY"] = "helloosp"
 
 # 홈 
 @application.route("/")
@@ -26,22 +29,19 @@ def reg_items():
 # 상품 등록 처리
 @application.route("/submit_item")
 def reg_item_submit():
+    seller_id=request.args.get("seller_id")
     name=request.args.get("name")
-    seller=request.args.get("seller")
-    addr=request.args.get("addr")
-    email=request.args.get("email")
-    category=request.args.get("category")
-    card=request.args.get("card")
-    status=request.args.get("status")
-    phone=request.args.get("phone")
+    price=request.args.get("price")
+    region=request.args.get("region")
+    description=request.args.get("description")
 
-    print(name, seller, addr, email, category, card, status, phone)
-    #return render_template("reg_item.html")
+    print(seller_id, name, price, region, description)
+    return render_template("submit_item_result.html")
 
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
-    image_file=request.files["file"]
+    image_file=request.files["image"]
     image_file.save("static/image/{}".format(image_file.filename))
     data=request.form
     return render_template("submit_item_result.html", data=data, img_path="static/image/{}".format(image_file.filename))

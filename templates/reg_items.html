@@ -1,8 +1,6 @@
 <!--상품 등록 화면-->
-
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,69 +11,79 @@
 
 <body>
   {% extends "index.html" %}
-
   {% block section %}
-  <h1>상품 등록 화면</h1>
-  <form action="/submit_item_post" method="post" enctype="multipart/form-data">
-    <div><br><br>
-      <label for="name">Item name: </label>
-      <input type="text" name="name" id="name" required><br><br>
+
+  <section class="reg-items-section" aria-labelledby="reg-items-title">
+    <div class="form-wrap">
+      <h1 id="reg-items-title" class="reg-items-title">상품 등록하기</h1>
+
+      <form action="/submit_item_post" method="post" enctype="multipart/form-data" class="item-form">
+        <!-- 판매자 아이디 -->
+        <div class="form-row">
+          <label for="seller_id" class="field-label">판매자 아이디</label>
+          <input id="seller_id" name="seller_id" type="text" placeholder="ewhaEwha" required>
+        </div>
+
+        <!-- 상품 이름 -->
+        <div class="form-row">
+          <label for="name" class="field-label">상품 이름</label>
+          <input id="name" name="name" type="text" placeholder="상품 이름" required>
+        </div>
+
+        <!-- 상품 가격 -->
+        <div class="form-row">
+          <label for="price" class="field-label">상품 가격</label>
+          <input id="price" name="price" type="number" min="0" step="100" placeholder="₩ 상품 가격" required>
+        </div>
+
+        <!-- 판매 지역 -->
+        <div class="form-row">
+          <label for="region" class="field-label">판매 지역</label>
+          <input id="region" name="region" type="text" placeholder="판매 지역" required>
+        </div>
+
+        <!-- 상품 상태 -->
+        <div class="form-row">
+          <label for="status" class="field-label">상품 상태</label>
+          <select id="status" name="status" required>
+            <option value="a" selected>A급 (새상품)</option>
+            <option value="b">B급 (미세 하자)</option>
+            <option value="c">C급 (외관 하자)</option>
+          </select>
+        </div>
+
+        <!-- 상품 설명 -->
+        <div class="form-row">
+          <label for="description" class="field-label">상품 설명</label>
+          <textarea id="description" name="description" rows="8" placeholder="상품에 대한 자세한 설명을 적어주세요."></textarea>
+        </div>
+
+        <!-- 상품 사진 -->
+        <div class="form-row">
+          <label for="image" class="field-label">상품 사진</label>
+
+          <div class="image-upload-box" onclick="document.getElementById('image').click()">
+            <div class="upload-content">
+              <strong>사진 추가</strong>
+              <p>상품의 외부 혹은 내부 사진을 첨부해주세요.</p>
+              <button type="button" class="upload-btn">업로드</button>
+              <span id="file-name" class="file-name"></span>
+            </div>
+          </div>
+
+          <input id="image" name="image" type="file" accept="image/*" style="display:none" onchange="updateFileName(this)">
+        </div>
+
+
+        <!-- 버튼 -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="history.back()">취소</button>
+          <button type="submit" class="btn btn-primary">등록</button>
+        </div>
+      </form>
     </div>
-    <div>
-      <label for="seller">Seller ID:</label>
-      <input type="text" name="seller" id="seller" required><br><br>
-    </div>
-    <div>
-      <label for="addr">Address:</label>
-      <input type="text" name="addr" id="addr" required><br><br>
-    </div>
-    <div>
-      <!-- for속성은 onput의 id와 일치해야 하지 않나용? 근데 ppt는 이렇게 작성되어 있습니다.-->
-      <label for="email">Email:</label>
-      <input type="text" name="email" id="email" required><br><br>
-    </div>
-    <div>
-      <label for="category">Category:</label>
-      <br>
-      <select id="category" name="category">
-        <option value="Clothes" selected>Clothes</option>
-        <option value="Beauty">Beauty</option>
-        <option value="Books">Books</option>
-        <option value="Furniture">Furniture</option>
-        <option value="Electronics">Electronics</option>
-        <option value="ETC">ETC</option>
-      </select><br><br>
-    </div>
-    <div>
-      <label for="card">Credit Card?(Y/N):</label>
-      <br>
-      <select id="card" name="card">
-        <option value="Y" selected>Yes</option>
-        <option value="N">No</option>
-      </select><br><br>
-    </div>
-    <div>
-      <label for="status">Status?</label>
-      <br>
-      <select id="status" name="status">
-        <option value="new" selected>New</option>
-        <option value="lnew">Likely New</option>
-        <option value="used">Used</option>
-      </select><br><br>
-    </div>
-    <div>
-      <label for="phone">Phone:</label>
-      <input type="text" name="phone" id="phone"><br><br>
-    </div>
-    <div>
-      <label for="img">Representative Image upload : </label>
-      <input type="file" name="file" /><br><br>
-    </div>
-    <div>
-      <input type="submit" value="Submit!"><br><br>
-    </div>
-  </form>
+  </section>
+
   {% endblock section %}
 </body>
-
 </html>

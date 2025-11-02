@@ -9,11 +9,91 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reg_reviews.css') }}">
   <script src="{{ url_for('static', filename='js/reg_reviews.js') }}" defer></script>
 </head>
+
 <body>
   {% extends "index.html" %}
-
   {% block section %}
-    <h1>리뷰 등록 화면</h1>
+
+  <section class="reg-reviews-section" aria-labelledby="reg-reviews-title">
+    <div class="form-wrap">
+      <h1 id="reg-reviews-title" class="reg-reviews-title">리뷰 등록하기</h1>
+
+      <form action="/submit_review_post" method="post" enctype="multipart/form-data" class="review-form">
+        <!-- 리뷰자 아이디 -->
+        <div class="form-row">
+          <label for="reviewer_id" class="field-label">리뷰자 아이디</label>
+          <input id="reviewer_id" name="reviewer_id" type="text" placeholder="로그인한 아이디로 고정될 예정" class="read-only" readonly>
+        </div>
+
+        <!-- 상품 이름 -->
+        <div class="form-row">
+          <label for="product_name" class="field-label">상품 이름</label>
+          <input id="product_name" name="product_name" type="text" placeholder="선택된 상품으로 고정될 예정" class="read-only" readonly>
+        </div>
+
+        <!-- 리뷰 평점 -->
+        <div class="form-row">
+          <label class="field-label">리뷰 평점</label>
+
+          <div class="rating-row">
+            <fieldset class="rating" aria-label="별점 선택">
+              <input type="radio" id="star5" name="rating" value="5">
+              <label for="star5" title="5점">★</label>
+
+              <input type="radio" id="star4" name="rating" value="4" checked>
+              <label for="star4" title="4점">★</label>
+
+              <input type="radio" id="star3" name="rating" value="3">
+              <label for="star3" title="3점">★</label>
+
+              <input type="radio" id="star2" name="rating" value="2">
+              <label for="star2" title="2점">★</label>
+
+              <input type="radio" id="star1" name="rating" value="1">
+              <label for="star1" title="1점">★</label>
+            </fieldset>
+
+            <span class="rating-text" id="rating-text" aria-live="polite">4/5</span>
+          </div>
+        </div>
+
+        <!-- 리뷰 제목 -->
+        <div class="form-row">
+          <label for="title" class="field-label">리뷰 제목</label>
+          <input id="title" name="title" type="text" placeholder="리뷰 제목" required>
+        </div>
+
+        <!-- 리뷰 내용 -->
+        <div class="form-row">
+          <label for="content" class="field-label">리뷰 내용</label>
+          <textarea id="content" name="content" rows="8" placeholder="상품에 대한 자세한 후기를 작성해주세요." required></textarea>
+        </div>
+
+        <!-- 상품 사진 -->
+        <div class="form-row">
+          <label for="image" class="field-label">리뷰 사진</label>
+
+          <div class="image-upload-box" onclick="document.getElementById('image').click()">
+            <div class="upload-content">
+              <strong>사진 추가</strong>
+              <p>상품의 외부 혹은 내부 사진을 첨부해주세요.</p>
+              <button type="button" class="upload-btn" tabindex="-1">업로드</button>
+              <span id="file-name" class="file-name"></span>
+            </div>
+          </div>
+
+          <input id="image" name="image" type="file" accept="image/*" style="display:none" onchange="updateFileName(this)">
+        </div>
+
+        <!-- 버튼 -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" onclick="history.back()">취소</button>
+          <button type="submit" class="btn btn-primary">등록</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
   {% endblock section %}
 </body>
-
+</html>

@@ -14,18 +14,21 @@ class DBhandler:
     # 회원 정보 삽입
     def insert_user(self, data, pw):
         user_info = {
-            "id": data['id'],
-            "pw": pw,
-            "nickname": data['nickname']
+            "username": data['username'],
+            "password": pw,
+            "nickname": data['nickname'],
+            "email": data['email'],
+            "phone": data['phone'],
+            "student_id": data['student_id']
         }
 
         # 중복 확인
-        if self.user_duplicate_check(str(data['id'])):
+        if self.user_duplicate_check(str(data['username'])):
             self.db.child("user").push(user_info)
             print("회원 등록 성공: ", user_info)
             return True
         else:
-            print("이미 회원가입이 되어있습니다: ", data['id'])
+            print("이미 회원가입이 되어있습니다: ", data['username'])
             return False
         
     # 사용자 ID 중복 여부 확인
@@ -39,7 +42,7 @@ class DBhandler:
             for res in users.each():
                 value = res.val()
                 
-                if value['id'] == id_string:
+                if value['username'] == id_string:
                     return False
             return True
 

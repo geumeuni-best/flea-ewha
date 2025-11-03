@@ -37,7 +37,7 @@ def reg_item_submit():
     description = request.args.get("description")
 
     print(seller_id, name, price, region, description)
-    return render_template("reg_items.html")
+    return render_template("submit_item_result.html")
 
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])

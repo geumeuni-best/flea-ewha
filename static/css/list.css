@@ -1,0 +1,148 @@
+section.list-section {
+  max-width: 1100px;
+  margin: 40px auto;
+}
+
+
+.product-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 20px;
+}
+
+.list-title {
+  grid-column: 1 / -1;
+  margin-top: 30px;
+  margin-bottom: 0px;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: normal;
+  color: #000;
+}
+
+.product-item {
+  width: 100%;
+}
+
+.product-item img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.product-item p {
+  margin: 4px 0;
+}
+
+.product-name {
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+}
+
+.new-badge {
+  color: #DC143C;
+  font-size: 13px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.price-rating-row {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+  gap: 8px;
+}
+
+.product-price {
+  font-size: 15px;
+  font-weight: bold;
+  color: #DC143C;
+  margin: 0;
+}
+
+.product-rating {
+  font-size: 13px;
+}
+
+.star {
+  font-size: 16px;
+  letter-spacing: -1px;
+}
+
+.star.filled {
+  color: #FBCB43;
+}
+
+.star.empty {
+  color: #E0E0E0;
+}
+
+.rating-count {
+  color: #888;
+  margin-left: 5px;
+}
+
+.product-heart {
+  font-size: 15px;
+  font-weight: 600;
+  color: #DC143C;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 14px;
+}
+
+.pagination>a {
+  padding: 8px 12px;
+  color: #555;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid #000;
+}
+
+.pagination a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  color: #555;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.pagination span {
+  margin: 0 5px;
+  padding: 8px 12px;
+  color: #555;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination a:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .active {
+  background-color: #f1f1f1;
+  color: #000;
+  font-weight: 700;
+}
+
+.pagination span {
+  color: #999;
+}

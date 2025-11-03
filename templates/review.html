@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,69 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/review.css') }}">
   <script src="{{ url_for('static', filename='js/review.js') }}" defer></script>
 </head>
+
 <body>
   {% extends "index.html" %}
 
   {% block section %}
-    <h1>리뷰 조회 화면</h1>
+  <section class="review-section" aria-labelledby="review-title">
+    <div class="product-grid-container">
+      <h1 id="review-title" class="review-title">전체 리뷰 목록</h1>
+
+      <div class="product-item">
+        <img src="../static/image/빅사이즈 겨울 머플러 [오렌지].png" alt="빅사이즈 겨울 머플러 [오렌지]">
+        <p class="product-name">빅사이즈 겨울 머플러 [오렌지]</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/가죽 귀걸이.png" alt="가죽 귀걸이">
+        <p class="product-name">가죽 귀걸이</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/[수제] 저자극 천연 비누.png" alt="[수제] 저자극 천연 비누">
+        <p class="product-name">[수제] 저자극 천연 비누</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/포근한 스웨터.png" alt="포근한 스웨터">
+        <p class="product-name">포근한 스웨터</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/이화그린 코스터.png" alt="이화그린 코스터">
+        <p class="product-name">이화그린 코스터</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/니트 가방.png" alt="니트 가방">
+        <p class="product-name">니트 가방</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/코튼 뜨개 덧신.png" alt="코튼 뜨개 덧신">
+        <p class="product-name">코튼 뜨개 덧신</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+      <div class="product-item">
+        <img src="../static/image/[수제] 실버 목걸이.png" alt="[수제] 실버 목걸이">
+        <p class="product-name">[수제] 실버 목걸이</p>
+        <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
+      </div>
+    </div>
+    <div class="pagination">
+      <a href="#">&lt; Previous</a>
+      <div class="page-numbers">
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <span>...</span>
+        <a href="#">8</a>
+        <a href="#">9</a>
+        <a href="#">10</a>
+      </div>
+      <a href="#">Next &gt;</a>
+    </div>
+  </section>
   {% endblock section %}
 </body>
-

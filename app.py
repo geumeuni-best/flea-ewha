@@ -82,16 +82,34 @@ def signup():
 @application.route("/signup_post", methods = ['POST'])
 def register_user():
     data = request.form
-    pw = request.data['pw']
-    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    username = data.get('username')
+    password = data.get('password')
+    nickname = data.get('nickname')
+    email = data.get('email')
+    phone = data.get('phone')
+    student_id = data.get('student_id')
+
+    if not username or not password or not nickname or not email or not phone or not student_id:
+        flash("아이디/비밀번호/닉네임은 필수입니다.")
+        return redirect(url_for("signup"))
+
+    pw_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    normalized = {
+        "username": username,
+        "nickname": nickname,
+        "email": email,
+        "phone": phone,
+        "student_id": student_id,
+    }
     
-    if DB.insert_user(data, pw_hash):
+    if DB.insert_user(normalized, pw_hash):
         flash("success! now log in")
-        return render_template("login.html")
+        return render_template("index.html")
     else:
         flash("user id already exist!")
         return render_template("signup.html")
-    
+
 # ------------------------
 # Flask 실행
 # ------------------------

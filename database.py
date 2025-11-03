@@ -3,12 +3,45 @@ import json
 
 class DBhandler:
 
+    # Firebase 인증 정보 로드
     def __init__(self):
         with open('./authentication/firebase_auth.json') as f:
             config = json.load(f)
 
         firebase = pyrebase.initialize_app(config)
         self.db = firebase.database()
+
+    # 회원 정보 삽입
+    def insert_user(self, data, pw):
+        user_info = {
+            "id": data['id'],
+            "pw": pw,
+            "nickname": data['nickname']
+        }
+
+        # 중복 확인
+        if self.user_duplicate_check(str(data['id'])):
+            self.db.child("user").push(user_info)
+            print("회원 등록 성공: ", user_info)
+            return True
+        else:
+            print("이미 회원가입이 되어있습니다: ", data['id'])
+            return False
+        
+    # 사용자 ID 중복 여부 확인
+    def user_duplicate_check(self, id_string):
+        users = self.db.child("user").get()
+
+        print("users###", users.val())
+        if str(users.val()) == "None":
+            return True
+        else:
+            for res in users.each():
+                value = res.val()
+                
+                if value['id'] == id_string:
+                    return False
+            return True
 
     def insert_item(self, name, data, img_path):
         item_info = {

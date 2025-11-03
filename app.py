@@ -105,7 +105,7 @@ def register_user():
     
     if DB.insert_user(normalized, pw_hash):
         flash("success! now log in")
-        return render_template("index.html")
+        return render_template("login.html")
     else:
         flash("user id already exist!")
         return render_template("signup.html")

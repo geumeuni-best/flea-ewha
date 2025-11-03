@@ -5,6 +5,7 @@ import sys
 
 application = Flask(__name__)
 application.config["SECRET_KEY"] = "helloosp"
+DB = DBhandler()
 
 # 홈 
 @application.route("/")
@@ -29,11 +30,11 @@ def reg_items():
 # 상품 등록 처리
 @application.route("/submit_item")
 def reg_item_submit():
-    seller_id=request.args.get("seller_id")
-    name=request.args.get("name")
-    price=request.args.get("price")
-    region=request.args.get("region")
-    description=request.args.get("description")
+    seller_id = request.args.get("seller_id")
+    name = request.args.get("name")
+    price = request.args.get("price")
+    region = request.args.get("region")
+    description = request.args.get("description")
 
     print(seller_id, name, price, region, description)
     return render_template("submit_item_result.html")
@@ -41,10 +42,11 @@ def reg_item_submit():
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
-    image_file=request.files["image"]
+    image_file = request.files["image"]
     image_file.save("static/image/{}".format(image_file.filename))
-    data=request.form
-    return render_template("submit_item_result.html", data=data, img_path="static/image/{}".format(image_file.filename))
+    data = request.form
+    DB.insert_item(data['name'], data, image_file.filename)
+    return render_template("submit_item_result.html", data = data, img_path = "static/image/{}".format(image_file.filename))
 
 # 리뷰 등록
 @application.route("/reg_reviews")

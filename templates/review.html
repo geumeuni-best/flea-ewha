@@ -1,18 +1,11 @@
 <!-- 리뷰 조회 화면 -->
 
-<!DOCTYPE html>
-<html lang="ko">
+{% extends "index.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLEA:EWHA</title>
+{% block head_extra %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/review.css') }}">
   <script src="{{ url_for('static', filename='js/review.js') }}" defer></script>
-</head>
-
-<body>
-  {% extends "index.html" %}
+{% endblock head_extra %}
 
   {% block section %}
   <section class="review-section" aria-labelledby="review-title">
@@ -75,4 +68,3 @@
     </div>
   </section>
   {% endblock section %}
-</body>

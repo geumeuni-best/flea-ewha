@@ -1,17 +1,12 @@
 <!-- 리뷰 등록 화면 -->
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLEA:EWHA</title>
+{% extends "index.html" %}
+
+{% block head_extra %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reg_reviews.css') }}">
   <script src="{{ url_for('static', filename='js/reg_reviews.js') }}" defer></script>
-</head>
+{% endblock head_extra %}
 
-<body>
-  {% extends "index.html" %}
   {% block section %}
 
   <section class="reg-reviews-section" aria-labelledby="reg-reviews-title">
@@ -95,5 +90,3 @@
   </section>
 
   {% endblock section %}
-</body>
-</html>

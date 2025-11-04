@@ -1,19 +1,13 @@
 <!-- 마이페이지 화면 -->
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLEA:EWHA</title>
+{% extends "index.html" %}
+
+{% block head_extra %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/mypage.css') }}">
   <script src="{{ url_for('static', filename='js/mypage.js') }}" defer></script>
-</head>
-<body>
-  {% extends "index.html" %}
+{% endblock head_extra %}
 
   {% block section %}
     <h1>마이페이지 화면</h1>
   {% endblock section %}
-</body>
 

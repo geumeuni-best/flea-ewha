@@ -2,19 +2,12 @@
 <!-- 일단 만들긴 했는데 app.py도 건드려야 할 것 같아서..ㅎㅎ 일단 만들기만 해뒀습니당.. -->
 <!--3페이지도 만약 필요하다면 만들도록 하겠습니다. 일단 하드코딩하다보니 이게 맞는지 잘 모르겠어서..-->
 
-<!DOCTYPE html>
-<html lang="ko">
+{% extends "index.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLEA:EWHA</title>
+{% block head_extra %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
   <script src="{{ url_for('static', filename='js/list.js') }}" defer></script>
-</head>
-
-<body>
-  {% extends "index.html" %}
+{% endblock head_extra %}
 
   {% block section %}
   <section class="list-section" aria-labelledby="list-title">
@@ -169,4 +162,3 @@
   </section>
 
   {% endblock section %}
-</body>

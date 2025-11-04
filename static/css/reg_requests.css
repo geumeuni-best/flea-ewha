@@ -226,3 +226,24 @@
   border-radius: 10px;
   background: rgba(31, 64, 35, 0.10);
 }
+
+.search-result-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 18px;
+  background: #ECEBE6;
+  border: 1px solid #D1D5D0;
+  text-align: left;
+  font-size: 16px;
+  color: #222;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.16s, border 0.16s;
+  margin-bottom: 4px;
+}
+
+.search-result-btn:hover,
+.search-result-btn:focus {
+  background: #e2e5de;
+  border: 1.5px solid #468AF0;
+}

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>[겨울아이템] 노르딕 뜨개 방울모자</title>
+  <style>
+body {
+    font-family: 'Pretendard';
+    background-color: #fafafa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+  font-family: 'Pretendard';
+}
+
+.top-bar {
+  background-color: #1F4023;
+  color: white;
+  text-align: right;
+  padding: 6px 25px;
+  font-size: 0.9rem;
+}
+
+.top-bar a {
+  color: white;
+  text-decoration: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px 40px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-weight: bold;
+  color: #1F4023;
+  font-size: 1.4rem;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: hsla(124, 38%, 19%, 0.1);
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 180px;
+}
+
+.search-box button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  transform: scaleX(-1);
+}
+
+main.product {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 30px;
+  }
+
+.top-section {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    margin-bottom: 50px;
+  }
+
+.product-image img {
+    width: 550px;
+    height: auto;
+    border-radius: none;
+    box-shadow: none;
+  }
+
+.product-details {
+    flex: 1;
+  }
+
+h2 {
+    border-bottom: none;
+    padding-bottom: none;
+    margin-top: 0;
+  }
+
+.stars_all {
+  color: #f5b400;
+  font-size: 1.1rem;
+  margin-bottom: none;
+}
+
+.price {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+.price .discount {
+    color: black;
+    font-weight: bold;
+    margin-right: 6px;
+  }
+
+.price .origin {
+    color: #888;
+    text-decoration: line-through;
+    margin-right: 6px;
+  }
+
+.price .percent {
+    color: #d32f2f;
+    font-weight: bold;
+  }
+
+.product-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+.product-info li {
+  display: grid;
+  grid-template-columns: 120px 1fr;  margin-bottom: 5px;
+  color: black;
+}
+
+.product-info li strong {
+  font-weight: 600;
+}
+
+.divider {
+    border-bottom: 2px solid #ddd;
+    margin: 10px 0 15px;
+}
+
+.purchase-info {
+  margin-top: 20px;
+}
+
+.amount {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #d32f2f; 
+  font-size: 25px;
+}
+
+.quantity-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quantity-control button {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  background-color: #f0f5f2;
+  color: #333;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantity-control .quantity {
+  display: inline-block;
+  width: 30px;
+  text-align: center;
+}
+
+.quantity-control .stock {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.summary {
+  font-weight: bold;
+}
+
+.button-group {
+    display : flex;
+    justify-content: space-between;
+    margin-top:20px;
+}
+
+  button.buy, button.cart {
+    padding: 10px 100px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button.buy {
+    background-color: hsla(124, 38%, 19%, 0.7);
+    color: white;
+  }
+
+  button.cart {
+    background-color: hsla(124, 38%, 19%, 0.3);
+    color: black;
+  }
+
+.desc {
+    max-width: 100%;
+    background: white;
+    padding: 40px 30px;
+    line-height: 1.7;
+    margin-bottom: 50px;
+  }
+
+.review {
+  max-width: 100%;
+  padding: 40px 30px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.review article {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1 1 45%;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+
+.review .date {
+  font-size: 0.85rem;
+  color: #000000;
+}
+
+.review h4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stars {
+  color: #f5b400;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.review-btn {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.review-btn button {
+  padding: 10px 70px;
+  background-color: hsla(124, 38%, 19%, 0.3);
+  color: black;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+footer {
+    text-align: left;
+    margin-top: 50px;
+    padding: 50px;
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    background-color: #1F4023;
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top-bar">
+    <div class="user-menu">
+      <a href="#">마이페이지</a>
+      <a href="#">로그아웃</a>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <div class="logo">FLEA:EWHA</div>
+    <nav>
+      <a href="#">상품 등록</a>
+      <a href="#">상품 조회</a>
+      <a href="#">리뷰 조회</a>
+      <a href="#">판매 요청</a>
+    </nav>
+    <div class="search-box">
+      <input type="text" placeholder="찾으시는 상품을 입력하세요." />
+      <button>⌕</button>
+    </div>
+  </div>
+  </header>
+
+  <main class="product">
+    <section class="top-section">
+      <section class="product-image">
+        <img src="nordic.png" alt="노르딕 뜨개 방울 모자">
+      </section>
+
+      <section class="product-details">
+        <h1>[겨울아이템] 노르딕 뜨개 방울모자</h1>
+        <div class="stars_all">★★★★☆</div>
+        <p class="price">
+          <span class="origin">18,700원</span>
+          <span class="percent">16%</span>
+          <span class="discount">15,650원</span>
+        </p>
+
+        <section class="product-info">
+          <br>
+          <ul>
+            <li>배송 정보<strong> 마켓 자체 배송</strong></li>
+            <li>배송 예정<strong> 주문 후 3일 이내</strong></li>
+          </ul>
+          <div class="divider"></div>
+          <ul>
+            <li>판매자 정보<strong> ewhaEwha</strong></li>
+            <li>판매자 지역<strong> 대현동</strong></li>
+            <li>상품 상태<strong> 최상</strong></li>
+          </ul>
+          <div class="divider"></div>
+  <div class="purchase-info">
+    <p class="total-amount"><b>총 상품 금액</b></p>
+    <div class="quantity-row">
+      <div class="quantity-control">
+        <button class="minus">-</button>
+        <span class="quantity">2</span>
+        <button class="plus">+</button>
+        <span class="stock">재고 5개</span>
+      </div>
+      <div class="summary">
+        <span>총 수량 2개</span> 
+        <span class="amount">31,300원</span>
+      </div>
+    </div>
+  </div>
+          <br>
+          <div class="button-group">
+          <button class="cart">장바구니 추가</button>
+          <button class="buy">바로 구매하기</button> </div>
+        </section>
+      </section>
+    </section>
+
+<div class="divider"></div>
+    <section class="desc">
+      <p style="font-size:25px; width:100%;"><b>상세 정보</b></p>
+      <p><b>한 코 한 코 정성스럽게 짜올린 핸드메이드 뜨개 방울모자로, 도톰한 울실이 머리를 포근하게 감싸주며 겨울 내내 따뜻한 온기를 전해줍니다.</b></p>
+      <p><b>심플하면서도 세련된 노르딕 패턴이 부드러운 크림빛 컬러와 어우러져 어떤 스타일에도 자연스럽게 녹아들며, 귀여운 방울 디테일이 사랑스러운 포인트가 되어줍니다.</b></p>
+      <p><b>부드러운 착용감과 뛰어난 보온성 덕분에 바람이 매서운 날에도 머리를 따뜻하게 보호해주며, 데일리룩은 물론 소중한 사람에게 선물하기에도 좋은 겨울 아이템입니다.</b></p>
+      <p><b>모든 제품은 수작업으로 제작되어 각 모자마다 미세한 결이 달라 더욱 특별한 감성을 느낄 수 있습니다.</b></p>
+    </section>
+
+<div class="divider"></div>
+<section class="review">
+  <p style="font-size:25px; width:100%;"><b>최신 리뷰</b></p>
+  <article>
+    <div class="stars">★★★★☆</div>
+    <h4>화여니 </h4>
+    <p>실물 색상은 화면보다 살짝 어두워요 핏은 얼굴에 딱 맞아서 좋아요 눈올 때 쓰려고 샀는데 따뜻해서 잘 산 템인듯 하네여,,</p>
+    <span class="date">2025.10.09</span>
+  </article>
+
+  <article>
+    <div class="stars">★★★★★</div>
+    <h4>공댕이</h4>
+    <p>귀까지 덮어주는 길이라서 딱 좋아요 폼폼볼도 크고 재질도 부드러워서 대만족입니당 귀엽기도 하고 키까지 커보이는 멋진 모자예요<p>
+    <span class="date">2025.10.08</span>
+  </article>
+    <div class="review-btn">
+        <button>전체 리뷰 보기</button>
+    </div>
+</section>
+  </main>
+
+  <footer>
+    <p style="font-size:20px"><b>FLEA:EWHA</b></p>
+    <p>이화의 마음으로 빚은 수공예품, <br>학생들의 정성과 창의가 담긴 작품들이 <br>FLEA:EWHA에서 새롭게 이어집니다.</p>
+    <hr>
+    <p>© 2025 FLEA:EWHA, Open Source Project under MIT License</p>
+  </footer>
+</body>
+</html>

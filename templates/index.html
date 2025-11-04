@@ -1,4 +1,4 @@
-<!-- 홈화면 -->
+<!-- 홈화면 및 네비게이션 -->
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -6,8 +6,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FLEA:EWHA</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+  {% block head_extra %}{% endblock head_extra %}
 </head>
 <body>
   <!-- 상단 초록색 바 -->

@@ -1,89 +1,82 @@
 <!--상품 등록 화면-->
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLEA:EWHA</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/reg_items.css') }}">
-  <script src="{{ url_for('static', filename='js/reg_items.js') }}" defer></script>
-</head>
 
-<body>
-  {% extends "index.html" %}
-  {% block section %}
+{% extends "index.html" %}
 
-  <section class="reg-items-section" aria-labelledby="reg-items-title">
-    <div class="form-wrap">
-      <h1 id="reg-items-title" class="reg-items-title">상품 등록하기</h1>
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reg_items.css') }}">
+<script src="{{ url_for('static', filename='js/reg_items.js') }}" defer></script>
+{% endblock head_extra %}
 
-      <form action="/submit_item_post" method="post" enctype="multipart/form-data" class="item-form">
-        <!-- 판매자 아이디 -->
-        <div class="form-row">
-          <label for="seller_id" class="field-label">판매자 아이디</label>
-          <input id="seller_id" name="seller_id" type="text" placeholder="로그인한 아이디로 고정될 예정" class="read-only" readonly>
-        </div>
+{% block section %}
 
-        <!-- 상품 이름 -->
-        <div class="form-row">
-          <label for="name" class="field-label">상품 이름</label>
-          <input id="name" name="name" type="text" placeholder="상품 이름" required>
-        </div>
+<section class="reg-items-section" aria-labelledby="reg-items-title">
+  <div class="form-wrap">
+    <h1 id="reg-items-title" class="reg-items-title">상품 등록하기</h1>
 
-        <!-- 상품 가격 -->
-        <div class="form-row">
-          <label for="price" class="field-label">상품 가격</label>
-          <input id="price" name="price" type="number" min="0" step="100" placeholder="₩ 상품 가격" required>
-        </div>
+    <form action="/submit_item_post" method="post" enctype="multipart/form-data" class="item-form">
+      <!-- 판매자 아이디 -->
+      <div class="form-row">
+        <label for="seller_id" class="field-label">판매자 아이디</label>
+        <input id="seller_id" name="seller_id" type="text" placeholder="로그인한 아이디로 고정될 예정" class="read-only" readonly>
+      </div>
 
-        <!-- 판매 지역 -->
-        <div class="form-row">
-          <label for="region" class="field-label">판매 지역</label>
-          <input id="region" name="region" type="text" placeholder="판매 지역" required>
-        </div>
+      <!-- 상품 이름 -->
+      <div class="form-row">
+        <label for="name" class="field-label">상품 이름</label>
+        <input id="name" name="name" type="text" placeholder="상품 이름" required>
+      </div>
 
-        <!-- 상품 상태 -->
-        <div class="form-row">
-          <label for="status" class="field-label">상품 상태</label>
-          <select id="status" name="status" required>
-            <option value="a" selected>A급 (새상품)</option>
-            <option value="b">B급 (미세 하자)</option>
-            <option value="c">C급 (외관 하자)</option>
-          </select>
-        </div>
+      <!-- 상품 가격 -->
+      <div class="form-row">
+        <label for="price" class="field-label">상품 가격</label>
+        <input id="price" name="price" type="number" min="0" step="100" placeholder="₩ 상품 가격" required>
+      </div>
 
-        <!-- 상품 설명 -->
-        <div class="form-row">
-          <label for="description" class="field-label">상품 설명</label>
-          <textarea id="description" name="description" rows="8" placeholder="상품에 대한 자세한 설명을 적어주세요."></textarea>
-        </div>
+      <!-- 판매 지역 -->
+      <div class="form-row">
+        <label for="region" class="field-label">판매 지역</label>
+        <input id="region" name="region" type="text" placeholder="판매 지역" required>
+      </div>
 
-        <!-- 상품 사진 -->
-        <div class="form-row">
-          <label for="image" class="field-label">상품 사진</label>
+      <!-- 상품 상태 -->
+      <div class="form-row">
+        <label for="status" class="field-label">상품 상태</label>
+        <select id="status" name="status" required>
+          <option value="a" selected>A급 (새상품)</option>
+          <option value="b">B급 (미세 하자)</option>
+          <option value="c">C급 (외관 하자)</option>
+        </select>
+      </div>
 
-          <div class="image-upload-box" onclick="document.getElementById('image').click()">
-            <div class="upload-content">
-              <strong>사진 추가</strong>
-              <p>상품의 외부 혹은 내부 사진을 첨부해주세요.</p>
-              <button type="button" class="upload-btn">업로드</button>
-              <span id="file-name" class="file-name"></span>
-            </div>
+      <!-- 상품 설명 -->
+      <div class="form-row">
+        <label for="description" class="field-label">상품 설명</label>
+        <textarea id="description" name="description" rows="8" placeholder="상품에 대한 자세한 설명을 적어주세요."></textarea>
+      </div>
+
+      <!-- 상품 사진 -->
+      <div class="form-row">
+        <label for="image" class="field-label">상품 사진</label>
+
+        <div class="image-upload-box" onclick="document.getElementById('image').click()">
+          <div class="upload-content">
+            <strong>사진 추가</strong>
+            <p>상품의 외부 혹은 내부 사진을 첨부해주세요.</p>
+            <button type="button" class="upload-btn">업로드</button>
+            <span id="file-name" class="file-name"></span>
           </div>
-
-          <input id="image" name="image" type="file" accept="image/*" style="display:none" onchange="updateFileName(this)">
         </div>
 
+        <input id="image" name="image" type="file" accept="image/*" style="display:none" onchange="updateFileName(this)">
+      </div>
 
-        <!-- 버튼 -->
-        <div class="form-actions">
-          <button type="button" class="btn btn-ghost" onclick="history.back()">취소</button>
-          <button type="submit" class="btn btn-primary">등록</button>
-        </div>
-      </form>
-    </div>
-  </section>
+      <!-- 버튼 -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" onclick="history.back()">취소</button>
+        <button type="submit" class="btn btn-primary">등록</button>
+      </div>
+    </form>
+  </div>
+</section>
 
-  {% endblock section %}
-</body>
-</html>
+{% endblock section %}

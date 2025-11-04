@@ -1,64 +1,57 @@
 <!-- 로그인 화면 -->
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FLEA:EWHA</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-  <script src="{{ url_for('static', filename='js/login.js') }}" defer></script>
-</head>
-<body>
-  {% extends "index.html" %}
+{% extends "index.html" %}
 
-  {% block section %}
-  {% with mesg = get_flashed_messages() %}
-  {% if mesg !=[] %}
-  <script>alert("{{ mesg[0] }}")</script>
-  {% endif %}
-  {% endwith %}
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<script src="{{ url_for('static', filename='js/login.js') }}" defer></script>
+{% endblock head_extra %}
 
-  <section class="login-section" aria-labelledby="login-title">
-    <div class="login-card">
-      <h1 id="login-title" class="login-title">로그인</h1>
+{% block section %}
+{% with mesg = get_flashed_messages() %}
+{% if mesg !=[] %}
+<script>alert("{{ mesg[0] }}")</script>
+{% endif %}
+{% endwith %}
 
-      <form class="login-form" action="/login_confirm" method="post" novalidate>
-        {# Flask-WTF를 쓴다면 아래 한 줄을 활성화 #}
-        {# {{ form.csrf_token }} #}
+<section class="login-section" aria-labelledby="login-title">
+  <div class="login-card">
+    <h1 id="login-title" class="login-title">로그인</h1>
 
-        <div class="form-row">
-          <label for="username" class="form-label">아이디</label>
-          <input
-            id="username"
-            name="id"
-            type="text"
-            class="form-input"
-            placeholder="아이디"
-            autocomplete="username"
-            required
-          >
-        </div>
+    <form class="login-form" action="/login_confirm" method="post" novalidate>
+      {# Flask-WTF를 쓴다면 아래 한 줄을 활성화 #}
+      {# {{ form.csrf_token }} #}
 
-        <div class="form-row">
-          <label for="password" class="form-label">비밀번호</label>
-          <input
-            id="password"
-            name="pw"
-            type="password"
-            class="form-input"
-            placeholder="비밀번호"
-            autocomplete="current-password"
-            required
-          >
-        </div>
+      <div class="form-row">
+        <label for="username" class="form-label">아이디</label>
+        <input
+          id="username"
+          name="id"
+          type="text"
+          class="form-input"
+          placeholder="아이디"
+          autocomplete="username"
+          required
+        >
+      </div>
 
-        <button type="submit" class="btn-login">로그인</button>
-      </form>
+      <div class="form-row">
+        <label for="password" class="form-label">비밀번호</label>
+        <input
+          id="password"
+          name="pw"
+          type="password"
+          class="form-input"
+          placeholder="비밀번호"
+          autocomplete="current-password"
+          required
+        >
+      </div>
 
-      <p class="login-help">아직 회원이 아니신가요? <a href="/signup" class="link-signup">회원가입</a></p>
-    </div>
-  </section>
-  {% endblock section %}
-</body>
+      <button type="submit" class="btn-login">로그인</button>
+    </form>
 
+    <p class="login-help">아직 회원이 아니신가요? <a href="/signup" class="link-signup">회원가입</a></p>
+  </div>
+</section>
+{% endblock section %}

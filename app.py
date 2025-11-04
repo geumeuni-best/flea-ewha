@@ -108,6 +108,18 @@ def mypage():
 def request_page():
     return render_template("request.html")
 
+# 상세상품 (프론트엔드 화면 설계 확인용)
+# 수정X -> 백엔드에서 넘겨주는 화면은 submit_item_result.html 만들어져있음. -> 라우팅 따로 할 것
+@application.route("/item_result_fe")
+def item_result_fe_page():
+    return render_template("submit_item_result_frontend.html")
+
+# 상세리뷰 (프론트엔드 화면 설계 확인용)
+# 수정X -> 백엔드에서 넘겨주는 화면은 submit_review_result.html 만들어져있음. -> 라우팅 따로 할 것
+@application.route("/review_result_fe")
+def review_result_fe_page():
+    return render_template("submit_review_result_frontend.html")
+
 # 로그인
 @application.route("/login")
 def login():

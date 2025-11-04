@@ -3,74 +3,73 @@
 {% extends "index.html" %}
 
 {% block head_extra %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
-  <script src="{{ url_for('static', filename='js/signup.js') }}" defer></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+<script src="{{ url_for('static', filename='js/signup.js') }}" defer></script>
 {% endblock head_extra %}
 
-  {% block section %}
-  {% with mesg = get_flashed_messages() %}
-  {% if mesg !=[] %}
-  <script>alert("{{ mesg[0] }}")</script>
-  {% endif %}
-  {% endwith %}
+{% block section %}
+{% with mesg = get_flashed_messages() %}
+{% if mesg !=[] %}
+<script>alert("{{ mesg[0] }}")</script>
+{% endif %}
+{% endwith %}
 
-  <section class="signup-section" aria-labelledby="signup-title">
-    <div class="signup-card">
-      <h1 id="signup-title" class="signup-title">회원가입</h1>
+<section class="signup-section" aria-labelledby="signup-title">
+  <div class="signup-card">
+    <h1 id="signup-title" class="signup-title">회원가입</h1>
 
-      <form class="signup-form" action="/signup_post" method="post" novalidate>
-        <!-- 아이디 -->
-        <div class="form-row with-action">
-          <div class="field">
-            <label for="username" class="form-label" id="id">아이디 <span class="opt">(필수)</span></label>
-            <input id="username" name="username" type="text" class="form-input" placeholder="아이디" autocomplete="username" required>
-          </div>
-          <button type="button" class="btn-secondary" id="btn-check-username">중복확인</button>
+    <form class="signup-form" action="/signup_post" method="post" novalidate>
+      <!-- 아이디 -->
+      <div class="form-row with-action">
+        <div class="field">
+          <label for="username" class="form-label" id="id">아이디 <span class="opt">(필수)</span></label>
+          <input id="username" name="username" type="text" class="form-input" placeholder="아이디" autocomplete="username" required>
         </div>
+        <button type="button" class="btn-secondary" id="btn-check-username">중복확인</button>
+      </div>
 
-        <!-- 비밀번호 -->
-        <div class="form-row">
-          <label for="password" class="form-label">비밀번호 <span class="opt">(필수)</span></label>
-          <input id="password" name="password" type="password" class="form-input" placeholder="비밀번호" autocomplete="new-password" required>
-        </div>
+      <!-- 비밀번호 -->
+      <div class="form-row">
+        <label for="password" class="form-label">비밀번호 <span class="opt">(필수)</span></label>
+        <input id="password" name="password" type="password" class="form-input" placeholder="비밀번호" autocomplete="new-password" required>
+      </div>
 
-        <!-- 비밀번호 확인 -->
-        <div class="form-row">
-          <label for="password_confirm" class="form-label">비밀번호 확인 <span class="opt">(필수)</span></label>
-          <input id="password_confirm" name="password_confirm" type="password" class="form-input" placeholder="비밀번호 확인" autocomplete="new-password" required>
-        </div>
+      <!-- 비밀번호 확인 -->
+      <div class="form-row">
+        <label for="password_confirm" class="form-label">비밀번호 확인 <span class="opt">(필수)</span></label>
+        <input id="password_confirm" name="password_confirm" type="password" class="form-input" placeholder="비밀번호 확인" autocomplete="new-password" required>
+      </div>
 
-        <!-- 이메일 -->
-        <div class="form-row">
-          <label for="email" class="form-label">이메일 주소 <span class="opt">(필수)</span></label>
-          <input id="email" name="email" type="email" class="form-input" placeholder="이메일 주소" autocomplete="email" required>
-        </div>
+      <!-- 이메일 -->
+      <div class="form-row">
+        <label for="email" class="form-label">이메일 주소 <span class="opt">(필수)</span></label>
+        <input id="email" name="email" type="email" class="form-input" placeholder="이메일 주소" autocomplete="email" required>
+      </div>
 
-        <!-- 닉네임 -->
-        <div class="form-row">
-          <label for="nickname" class="form-label">닉네임 <span class="opt">(필수)</span></label>
-          <input id="nickname" name="nickname" type="text" class="form-input" placeholder="닉네임" required>
-        </div>
+      <!-- 닉네임 -->
+      <div class="form-row">
+        <label for="nickname" class="form-label">닉네임 <span class="opt">(필수)</span></label>
+        <input id="nickname" name="nickname" type="text" class="form-input" placeholder="닉네임" required>
+      </div>
 
-        <!-- 핸드폰 번호 -->
-        <div class="form-row">
-          <label for="phone" class="form-label">핸드폰 번호 <span class="opt">(필수)</span></label>
-          <input id="phone" name="phone" type="tel" class="form-input" placeholder="핸드폰 번호 (하이픈 없이 입력하세요)">
-        </div>
+      <!-- 핸드폰 번호 -->
+      <div class="form-row">
+        <label for="phone" class="form-label">핸드폰 번호 <span class="opt">(필수)</span></label>
+        <input id="phone" name="phone" type="tel" class="form-input" placeholder="핸드폰 번호 (하이픈 없이 입력하세요)">
+      </div>
 
-        <!-- 학번 -->
-        <div class="form-row">
-          <label for="student_id" class="form-label">학번 <span class="opt">(필수)</span></label>
-          <input id="student_id" name="student_id" type="text" class="form-input" placeholder="학번">
-        </div>
+      <!-- 학번 -->
+      <div class="form-row">
+        <label for="student_id" class="form-label">학번 <span class="opt">(필수)</span></label>
+        <input id="student_id" name="student_id" type="text" class="form-input" placeholder="학번">
+      </div>
 
-        <button type="submit" class="btn-primary">회원가입</button>
+      <button type="submit" class="btn-primary">회원가입</button>
 
-        <p class="signup-help">
-          이미 계정이 있나요? <a href="/login" class="link-login">로그인</a>
-        </p>
-      </form>
-    </div>
-  </section>
-  {% endblock section %}
-
+      <p class="signup-help">
+        이미 계정이 있나요? <a href="/login" class="link-login">로그인</a>
+      </p>
+    </form>
+  </div>
+</section>
+{% endblock section %}

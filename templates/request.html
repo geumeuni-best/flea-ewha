@@ -3,12 +3,11 @@
 {% extends "index.html" %}
 
 {% block head_extra %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/request.css') }}">
-  <script src="{{ url_for('static', filename='js/request.js') }}" defer></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/request.css') }}">
+<script src="{{ url_for('static', filename='js/request.js') }}" defer></script>
 {% endblock head_extra %}
 
-  {% block section %}
-    <h1>판매 요청 조회 화면</h1>
-  {% endblock section %}
-</body>
+{% block section %}
+  <h1>판매 요청 조회 화면</h1>
+{% endblock section %}
 

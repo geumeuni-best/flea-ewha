@@ -7,14 +7,15 @@ main.product {
   }
 
 .top-section {
+    padding-top: 70px;
+    padding-bottom: 70px;
     display: flex;
     gap: 50px;
     align-items: flex-start;
-    margin-bottom: 50px;
   }
 
 .product-image img {
-    width: 550px;
+    width: 530px;
     height: auto;
     border-radius: none;
     box-shadow: none;
@@ -23,6 +24,15 @@ main.product {
 .product-details {
     flex: 1;
   }
+
+h1 {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px;
+}
 
 h2 {
     border-bottom: none;
@@ -43,7 +53,11 @@ h2 {
 }
 
 .product-info li strong {
-  font-weight: 600;
+  font-weight: 400;
+}
+
+li {
+  font-weight: 200;
 }
 
 .divider {
@@ -51,10 +65,36 @@ h2 {
     margin: 10px 0 15px;
 }
 
+p.cont {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 38px;
+}
+
 .stars {
   color: #f5b400;
   font-size: 1.1rem;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+  margin-bottom: 6px;
+}
+
+.rating {
+  color: #333; 
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.review-meta {
+  color: #777; 
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
 .button-p {

@@ -22,17 +22,17 @@
 
         <!-- 상품 이름 -->
         <div class="form-row">
-          <label for="product_name" class="field-label">상품 이름</label>
-          <input id="product_name" name="product_name" type="text" placeholder="선택된 상품으로 고정될 예정" class="read-only" readonly>
+          <label for="item_name" class="field-label">상품 이름</label>
+          <input id="item_name" name="item_name" type="text" placeholder="선택된 상품으로 고정될 예정" class="read-only" readonly>
         </div>
 
-        <!-- 리뷰 평점 -->
+        <!-- 리뷰 평점 (필수) -->
         <div class="form-row">
           <label class="field-label">리뷰 평점</label>
 
           <div class="rating-row">
             <fieldset class="rating" aria-label="별점 선택">
-              <input type="radio" id="star5" name="rating" value="5">
+              <input type="radio" id="star5" name="rating" value="5" required>
               <label for="star5" title="5점">★</label>
 
               <input type="radio" id="star4" name="rating" value="4" checked>
@@ -52,21 +52,22 @@
           </div>
         </div>
 
-        <!-- 리뷰 제목 -->
+        <!-- 리뷰 제목 (필수) -->
         <div class="form-row">
           <label for="title" class="field-label">리뷰 제목</label>
           <input id="title" name="title" type="text" placeholder="리뷰 제목" required>
         </div>
 
-        <!-- 리뷰 내용 -->
+        <!-- 리뷰 내용 (20자 이상 필수) -->
         <div class="form-row">
           <label for="content" class="field-label">리뷰 내용</label>
-          <textarea id="content" name="content" rows="8" placeholder="상품에 대한 자세한 후기를 작성해주세요." required></textarea>
+          <textarea id="content" name="content" rows="8" placeholder="상품에 대한 자세한 후기를 20자 이상 작성해주세요." required minlength = "20"></textarea>
+          <small class="field-hint">※ 20자 이상 입력해야 합니다.</small>
         </div>
 
-        <!-- 상품 사진 -->
+        <!-- 상품 사진 (선택) -->
         <div class="form-row">
-          <label for="image" class="field-label">리뷰 사진</label>
+          <label for="image" class="field-label">리뷰 사진 (선택)</label>
 
           <div class="image-upload-box" onclick="document.getElementById('image').click()">
             <div class="upload-content">

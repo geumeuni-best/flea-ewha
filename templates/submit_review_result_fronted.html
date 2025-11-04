@@ -1,0 +1,50 @@
+<!--리뷰 세부 화면-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLEA:EWHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/submit_review_result_frontend.css') }}">
+  <script src="{{ url_for('static', filename='js/submit_review_result_frontend.js') }}" defer></script>
+</head>
+<body>
+  {% extends "index.html" %}
+
+  {% block section %}
+    <main class="product">
+    <section class="top-section">
+      <section class="product-image">
+        <img src="빅사이즈 겨울 머플러 [오렌지].png" alt="빅사이즈 겨울 머플러">
+      </section>
+
+      <section class="product-details">
+        <div class="stars">★★★★☆</div>
+        <p>admin | 2025년 10월 20일</p>
+
+        <section class="product-info">
+          <div class="divider"></div>
+          <ul>
+            <li>상품명<strong> 빅사이즈 겨울 머플러</strong></li>
+            <li>옵션<strong> 오렌지</strong></li>
+            <li>색상 / 크기<strong> 화면보다 밝아요 / 딱 맞아요</strong></li>
+          </ul>
+          <div class="divider"></div>
+          <h1>만족해요</h1>
+          <p><b>이틀 지나서 배송 왔는데 대만족이에요 !!!</b></p>
+          <p><b>재질도 좋고 길이도 너무 길지 않아서 좋아요</b></p>
+          <p><b>대신 털날림은 좀 있네요...</b></p>
+          <p><b>도톰한 머플러 하나 필요해서 구매했는데 색도 예쁘고 맸을 때 잘 맞아서 다른 색상으로</b></p>
+          <p><b>하나 더 살 예정입니당</b></p>
+          <br>
+          <div class="button-p">
+          <button class="prod">상품 보러 가기</button>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  {% endblock section %}
+</body>
+</html>

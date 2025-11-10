@@ -1,0 +1,249 @@
+.reg-requests-section {
+  display: flex;
+  justify-content: center;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  background-color: #ffffff;
+}
+
+.form-wrap {
+  width: 1108px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.reg-requests-title {
+  color:#000;
+  text-align:left;
+  font-family:Pretendard;
+  font-size:28px;
+  font-weight:700;
+  line-height:normal;
+}
+
+.request-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.form-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  color:#000;
+  font-family:Pretendard;
+  font-size:16px;
+  font-weight:600;
+  line-height:normal;
+}
+
+.request-form input[type="text"]{
+  height:56px;
+  padding:0 16px;
+  align-self:stretch;
+  border-radius:10px;
+  border:1px solid #D9D9D9;
+  background:#FFF;
+  font-size:16px;
+  color:#000;
+  font-family:'Pretendard', sans-serif;
+  outline:none;
+}
+
+.request-form textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px 14px;
+  border:1px solid #dcdcdc;
+  border-radius:10px;
+  font-size:16px;
+  outline:none;
+  background:#fff;
+}
+
+.request-form input[type="text"]:focus,
+.request-form textarea:focus {
+  border-color: #00462A;
+  box-shadow: 0 0 0 2px rgba(0, 70, 42, 0.1);
+}
+
+.read-only {
+  background: rgba(31, 64, 35, 0.30);
+  color: #111827;
+}
+
+#nickname {
+  background: rgba(31, 64, 35, 0.30);
+}
+
+.selected-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selected-item .item-preview {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 10px;
+  background: #fff;
+  border:1px solid #dcdcdc;
+}
+
+.selected-item .product-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.selected-item .product-info {
+  display: grid;
+  row-gap: 4px;
+}
+
+.selected-item .product-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.selected-item .product-seller {
+  color: #DB4444;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  margin: 0;
+}
+
+.selected-item .product-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.selected-item .stars {
+  font-size: 16px;
+  line-height: 1;
+  color: #fbbf24;
+  letter-spacing: 1px;
+}
+
+.selected-item .rating-value {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.selected-item .item-preview > * {
+  margin: 0 !important;
+}
+
+.form-actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  border: 1px solid transparent;
+}
+
+.btn-ghost {
+  background: rgba(31, 64, 35, 0.30);
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+.btn-ghost:hover {
+  background: #e5e7eb;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: rgba(31, 64, 35, 0.70);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #00462A;
+  cursor: pointer;
+}
+
+.search-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px 40px 10px 12px;
+  border-radius: 10px;
+  background: rgba(31, 64, 35, 0.10);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.search-btn {
+  position: absolute;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#search {
+  border-radius: 10px;
+  background: rgba(31, 64, 35, 0.10);
+}
+
+.search-result-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 18px;
+  background: #ECEBE6;
+  border: 1px solid #D1D5D0;
+  text-align: left;
+  font-size: 16px;
+  color: #222;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.16s, border 0.16s;
+  margin-bottom: 4px;
+}
+
+.search-result-btn:hover,
+.search-result-btn:focus {
+  background: #e2e5de;
+  border: 1.5px solid #468AF0;
+}

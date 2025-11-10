@@ -96,7 +96,43 @@ def submit_review_post():
 # 판매 요청
 @application.route("/reg_requests")
 def reg_requests():
-    return render_template("reg_requests.html")
+    nickname = session.get("nickname", "")
+    return render_template("reg_requests.html", nickname=nickname)
+
+@application.route("/submit_request_post", methods=['POST'])
+def submit_request_post():
+    data = request.form
+
+    selected_item_name = data.get("selected_item", "")
+    item_info = {}
+
+    if selected_item_name:
+        item_info = DB.get_item_by_name(selected_item_name) or {}
+        item_info["name"] = selected_item_name
+
+    request_info = {
+        "search": data.get("search", ""),
+        "nickname": data.get("nickname", ""),
+        "title": data.get("title", ""),
+        "content": data.get("content", ""),
+        "item": item_info,
+    }
+
+    DB.insert_request(request_info)
+    return render_template("submit_request_result.html", req=request_info)
+    
+@application.route("/request/<request_id>")
+def request_detail(request_id):
+    req_data = DB.get_request_by_id(request_id)
+    if not req_data:
+        return "해당 요청을 찾을 수 없습니다.", 404
+    return render_template("submit_request_result.html", req=req_data)
+
+@application.route("/api/items")
+def api_items():
+    # DB에서 전체 상품 리스트 가져오기
+    items = DB.get_item_names()
+    return {"items": items}
 
 # 마이페이지
 @application.route("/mypage")

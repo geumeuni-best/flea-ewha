@@ -1,5 +1,6 @@
 import pyrebase
 import json
+import datetime
 
 class DBhandler:
 
@@ -46,6 +47,16 @@ class DBhandler:
                     return False
             return True
 
+    def find_user(self, username_, password_):
+        users = self.db.child("user").get()
+        target_value = []
+        for res in users.each():
+            value = res.val()
+
+            if value['username'] == username_ and value['password'] == password_:
+                return True
+        return False
+
     def insert_item(self, name, data, img_path):
         item_info = {
             "seller_id": data['seller_id'],
@@ -58,3 +69,47 @@ class DBhandler:
         self.db.child("item").child(name).set(item_info)
         print(data,img_path)
         return True
+
+    # 아래 코드는 판매 요청 관련 함수들
+    def insert_request(self, data):
+        request_info = {
+            "search": data["search"],
+            "nickname": data["nickname"],
+            "title": data["title"],
+            "content": data["content"],
+            "item": data.get("item", {}),
+            "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        }
+        self.db.child("request").push(request_info)
+        return True
+
+    def get_item_names(self):
+        items = self.db.child("item").get()
+        result = []
+        for item in items.each():
+            val = item.val()
+            result.append({
+                "name": item.key(),
+                "img_path": val.get("img_path", ""),
+                "status": val.get("status", ""),
+                "price": val.get("price", 0),
+                "stars": val.get("stars", 5),
+                "rating_count": val.get("rating_count", 0),
+            })
+        return result
+
+    def get_item_by_name(self, name):
+        item = self.db.child("item").child(name).get()
+        return item.val() if item.val() else {}
+
+    def get_request_by_id(self, request_id):
+        req = self.db.child("request").child(request_id).get()
+        return req.val() if req.val() else {}
+
+    def get_user_by_username(self, username):
+        users = self.db.child("user").get()
+        for res in users.each():
+            value = res.val()
+            if value['username'] == username:
+                return value
+        return None

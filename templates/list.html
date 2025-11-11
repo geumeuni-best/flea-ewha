@@ -1,5 +1,3 @@
-<!-- 상품 조회 화면1 -->
-
 {% extends "index.html" %}
 
 {% block head_extra %}
@@ -12,155 +10,63 @@
   <div class="product-grid-container">
     <h1 id="list-title" class="list-title">전체 상품</h1>
 
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/니트 가방.png') }}" alt="니트 가방">
-      <p class="product-name"><span class="new-badge">[new !]</span>니트 가방</p>
-      <div class="price-rating-row">
-        <p class="product-price">34,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="rating-count">(45)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 235</p>
-    </div>
+    {% if total > 0 %}
+      {% for key, value in datas %}
+      <div class="product-item" onclick="location.href='{{ url_for('view_item_detail', name=key) }}';" style="cursor:pointer;">
+        <img src="{{ url_for('static', filename='image/' ~ value.img_path) }}" alt="{{ key }}">
+        <p class="product-name">
+          {% if value.status == 'new' %}
+            <span class="new-badge">[new !]</span>
+          {% endif %}
+          {{ key }}
+        </p>
 
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/수제 비누 2p.png') }}" alt="수제 비누 2p">
-      <p class="product-name"><span class="new-badge">[new !]</span>수제 비누 2p</p>
-      <div class="price-rating-row">
-        <p class="product-price">9,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star empty">★</span>
-          <span class="star empty">★</span>
-          <span class="rating-count">(11)</span>
+        <div class="price-rating-row">
+          <p class="product-price">{{ value.price }}원</p>
+          <div class="product-rating">
+            {% set stars = value.stars or 5 %}
+            {% set rating_count = value.rating_count or 0 %}
+            {% for i in range(1, 6) %}
+              {% if i <= stars %}
+                <span class="star filled">★</span>
+              {% else %}
+                <span class="star empty">★</span>
+              {% endif %}
+            {% endfor %}
+            <span class="rating-count">({{ rating_count }})</span>
+          </div>
         </div>
       </div>
-      <p class="product-heart">♡ 199</p>
-    </div>
-
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/수제 샴푸바.png') }}" alt="수제 샴푸바">
-      <p class="product-name">수제 샴푸바</p>
-      <div class="price-rating-row">
-        <p class="product-price">10,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="rating-count">(23)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 327</p>
-    </div>
-
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/노르딕 뜨개 방울모자.png') }}" alt="노르딕 뜨개 방울모자">
-      <p class="product-name">[겨울 아이템] 노르딕 뜨개 방울모자</p>
-      <div class="price-rating-row">
-        <p class="product-price">(16%)15,650원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star empty">★</span>
-          <span class="rating-count">(218)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 661</p>
-    </div>
-
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/드림 캐처.png') }}" alt="드림 캐처">
-      <p class="product-name">드림 캐처</p>
-      <div class="price-rating-row">
-        <p class="product-price">8,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star empty">★</span>
-          <span class="star empty">★</span>
-          <span class="rating-count">(7)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 171</p>
-    </div>
-
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/미니 린넨 스트링 파우치.png') }}" alt="미니 린넨 스트링 파우치">
-      <p class="product-name">미니 린넨 스트링 파우치</p>
-      <div class="price-rating-row">
-        <p class="product-price">5,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star empty">★</span>
-          <span class="rating-count">(41)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 569</p>
-    </div>
-
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/이화그린 코스터.png') }}" alt="이화그린 코스터">
-      <p class="product-name">이화그린 코스터</p>
-      <div class="price-rating-row">
-        <p class="product-price">4,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="rating-count">(308)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 824</p>
-    </div>
-
-    <div class="product-item">
-      <img src="{{ url_for('static', filename='image/빅사이즈 겨울 머플러 [오렌지].png') }}" alt="빅사이즈 겨울 머플러 [그레이]">
-      <p class="product-name">빅사이즈 겨울 머플러 [그레이]</p>
-      <div class="price-rating-row">
-        <p class="product-price">17,000원</p>
-        <div class="product-rating">
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star filled">★</span>
-          <span class="star empty">★</span>
-          <span class="rating-count">(28)</span>
-        </div>
-      </div>
-      <p class="product-heart">♡ 503</p>
-    </div>
+      {% endfor %}
+    {% else %}
+      <p>등록된 상품이 없습니다.</p>
+    {% endif %}
   </div>
 
+  {% if page_count > 1 %}
   <div class="pagination">
-    <a href="#">&lt; Previous</a>
+    {% if page > 0 %}
+      <a href="{{ url_for('view_list', page=page-1) }}">&lt; Previous</a>
+    {% else %}
+      <span>&lt; Previous</span>
+    {% endif %}
+
     <div class="page-numbers">
-      <a href="#" class="active">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <span>...</span>
-      <a href="#">8</a>
-      <a href="#">9</a>
-      <a href="#">10</a>
+      {% for i in range(page_count) %}
+        {% if i == page %}
+          <a href="{{ url_for('view_list', page=i) }}" class="active">{{ i + 1 }}</a>
+        {% else %}
+          <a href="{{ url_for('view_list', page=i) }}">{{ i + 1 }}</a>
+        {% endif %}
+      {% endfor %}
     </div>
-    <a href="#">Next &gt;</a>
+
+    {% if page < page_count - 1 %}
+      <a href="{{ url_for('view_list', page=page+1) }}">Next &gt;</a>
+    {% else %}
+      <span>Next &gt;</span>
+    {% endif %}
   </div>
+  {% endif %}
 </section>
 {% endblock section %}

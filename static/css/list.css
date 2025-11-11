@@ -101,6 +101,7 @@ section.list-section {
   align-items: center;
   margin-top: 50px;
   font-size: 14px;
+  margin-bottom: 80px;
 }
 
 .pagination>a {

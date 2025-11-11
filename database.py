@@ -64,7 +64,8 @@ class DBhandler:
             "region": data['region'],
             "status": data['status'],
             "description": data['description'],
-            "img_path": img_path             
+            "img_path": img_path,
+            "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         }
         self.db.child("item").child(name).set(item_info)
         print(data,img_path)
@@ -72,7 +73,20 @@ class DBhandler:
 
     def get_items(self):
         items = self.db.child("item").get().val()
-        return items
+        if not items:
+            return {}
+
+        def safe_timestamp(item):
+            value = item[1].get("created_at", 0)
+            try:
+                return float(value)
+            except (ValueError, TypeError):
+                return 0
+
+        sorted_items = dict(
+            sorted(items.items(), key=safe_timestamp, reverse=True)
+        )
+        return sorted_items
 
     def get_item_byname(self, name):
         items = self.db.child("item").get()

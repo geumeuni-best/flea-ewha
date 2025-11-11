@@ -97,6 +97,10 @@ class DBhandler:
                 "rating_count": val.get("rating_count", 0),
             })
         return result
+    
+    def get_items(self):
+        items = self.db.child("item").get().val()
+        return items
 
     def get_item_by_name(self, name):
         item = self.db.child("item").child(name).get()

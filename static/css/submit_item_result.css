@@ -59,7 +59,7 @@ h2 {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
 }
 
 .price .origin {

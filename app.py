@@ -214,6 +214,7 @@ def view_item_detail(name):
     print("###name:", name)
     data = DB.get_item_byname(str(name))
     print("####data:", data)
+    data["name"] = name
     return render_template("submit_item_result.html", name=name, data=data)
 
 # ------------------------

@@ -1,4 +1,4 @@
-<!-- 상품 세부 화면 -->
+<!-- 상품 세부 화면 (백엔드 연동 버전) -->
 
 {% extends "index.html" %}
 
@@ -8,32 +8,119 @@
 {% endblock head_extra %}
 
 {% block section %}
-<div class="result-wrap">
-  <h1>상품 등록 완료</h1>
+<main class="product">
+  <section class="top-section">
+    <section class="product-image">
+      {% if "static/image/" in data.img_path %}
+        <img src="{{ data.img_path }}" alt="{{ data.name }}">
+      {% else %}
+        <img src="{{ url_for('static', filename='image/' + data.img_path) }}" alt="{{ data.name }}">
+      {% endif %}
+    </section>
 
-  <p>
-    {{ data.seller_id }}님이 등록한 상품입니다.<br>
-    상품명: {{ data.name }}<br>
-    가격: ₩{{ data.price }}<br>
-    지역: {{ data.region }}<br>
-    상태:
-    {% if data.status == "a" %}
-      A급 (새상품)
-    {% elif data.status == "b" %}
-      B급 (미세 하자)
-    {% elif data.status == "c" %}
-      C급 (외관 하자)
-    {% else %}
-      {{ data.status }}
-    {% endif %}
-  </p>
+    <section class="product-details">
+      <h1>{{ data.name }}</h1>
 
-  <img src="{{img_path}}"/>
+      <div class="rating-row">
+        <div class="stars_all">★★★★☆</div>
+        <span class="review-count">(218)</span>
+      </div>
 
-  <div class="description-box">
-    <h2>상품 설명</h2>
+      <p class="price">
+        <span class="discount">{{ data.price }}원</span>
+      </p>
+
+      <br><br>
+
+      <section class="product-info">
+        <ul>
+          <li><span class="label">배송 정보</span><span class="value">마켓 자체 배송</span></li>
+          <li><span class="label">배송 예정</span><span class="value">주문 후 3일 이내</span></li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <ul>
+          <li><span class="label">판매자 정보</span><span class="value">{{ data.seller_id }}</span></li>
+          <li><span class="label">판매자 지역</span><span class="value">{{ data.region }}</span></li>
+          <li><span class="label">상품 상태</span>
+            <span class="value">
+              {% if data.status == "a" %}
+                A급 (새상품)
+              {% elif data.status == "b" %}
+                B급 (미세 하자)
+              {% elif data.status == "c" %}
+                C급 (외관 하자)
+              {% else %}
+                {{ data.status }}
+              {% endif %}
+            </span>
+          </li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div class="purchase-info">
+          <p class="total-amount">총 상품 금액</p>
+          <div class="quantity-row">
+            <div class="quantity-control">
+              <button class="minus">-</button>
+              <span class="quantity">1</span>
+              <button class="plus">+</button>
+            </div>
+            <div class="summary">
+              <span class="tsum">총 수량 1개 </span>
+              <span class="amount">{{ data.price }}원</span>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="button-group">
+          <button class="cart">장바구니 추가</button>
+          <button class="buy">바로 구매하기</button>
+        </div>
+
+        <div id="modal" class="modal hidden">
+          <div class="modal-content">
+            <p id="modal-text"></p>
+            <button id="modal-close">확인</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="desc">
+    <p class="info" style="font-size:25px; width:100%;">상세 정보</p>
     <p>{{ data.description }}</p>
-  </div>
-</div>
+  </section>
 
+  <div class="divider"></div>
+
+  <section class="review">
+    <p class="new" style="font-size:25px; width:100%;">최신 리뷰</p>
+
+    <article>
+      <div class="stars">★★★★☆</div>
+      <h4>화여니 </h4>
+      <p>실물 색상은 화면보다 살짝 어두워요 핏은 얼굴에 딱 맞아서 좋아요 눈올 때 쓰려고 샀는데 따뜻해서 잘 산 템인듯 하네여,,</p>
+      <span class="date">2025.10.09</span>
+    </article>
+
+    <article>
+      <div class="stars">★★★★★</div>
+      <h4>공댕이</h4>
+      <p>귀까지 덮어주는 길이라서 딱 좋아요 폼폼볼도 크고 재질도 부드러워서 대만족입니당 귀엽기도 하고 키까지 커보이는 멋진 모자예요</p>
+      <span class="date">2025.10.08</span>
+    </article>
+
+    <div class="review-btn">
+      <button>전체 리뷰 보기</button>
+    </div>
+  </section>
+</main>
 {% endblock section %}

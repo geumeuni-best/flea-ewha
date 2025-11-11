@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/submit_request_result.css') }}">
+<script src="{{ url_for('static', filename='js/submit_request_result.js') }}" defer></script>
+{% endblock head_extra %}
+
+{% block section %}
+<section class="request-detail-wrap">
+  <h1 class="request-title">{{ req.title }}</h1>
+
+  <div class="request-meta">
+    by {{ req.nickname }} · <span class="request-date">{{ req.created_at }}</span>
+  </div>
+
+  <div class="request-content">
+    {{ req.content | replace('\n', '<br>') | safe }}
+  </div>
+
+  <h3 class="related-title">연결된 상품</h3>
+
+  {% set item = req.item or {} %}
+  {% set stars = item.stars or 0 %}
+  {% set rating_count = item.rating_count or 0 %}
+
+  <div class="related-product">
+    {% if item.img_path %}
+      <img class="product-img" src="{{ url_for('static', filename=item.img_path) }}" alt="연결 상품 이미지">
+    {% else %}
+      <img class="product-img" src="{{ url_for('static', filename='image/no_image.png') }}" alt="연결 상품 없음">
+    {% endif %}
+
+    <div class="product-info">
+      <p class="product-name">{{ item.name or '상품명' }}</p>
+      <p class="product-seller">{{ item.status or '품절' }}</p>
+          <div class="product-rating">
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+          </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

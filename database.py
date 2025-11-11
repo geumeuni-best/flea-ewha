@@ -101,16 +101,22 @@ class DBhandler:
 
     # 아래 코드는 판매 요청 관련 함수들
     def insert_request(self, data):
+        item = data.get("item", {})
+        if "name" not in item or not item["name"]:
+            item["name"] = data.get("search", "상품명 미상")
+
         request_info = {
-            "search": data["search"],
-            "nickname": data["nickname"],
-            "title": data["title"],
-            "content": data["content"],
-            "item": data.get("item", {}),
+            "search": data.get("search", ""),
+            "nickname": data.get("nickname", ""),
+            "title": data.get("title", ""),
+            "content": data.get("content", ""),
+            "item": item,
             "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         }
-        self.db.child("request").push(request_info)
-        return True
+
+        new_ref = self.db.child("request").push(request_info)
+        new_key = new_ref["name"]
+        return new_key
 
     def get_item_names(self):
         items = self.db.child("item").get()
@@ -142,3 +148,15 @@ class DBhandler:
             if value['username'] == username:
                 return value
         return None
+    
+    # 판매요청등록 테이블에서 데이터 가져오기
+    def get_requests(self):
+        requests = self.db.child("request").get().val() or {}
+        result = []
+        for key, val in requests.items():
+            val["id"] = key
+            result.append(val)
+
+        # created_at 기준 최신순 정렬
+        result.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+        return result

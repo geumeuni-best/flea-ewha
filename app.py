@@ -127,17 +127,89 @@ def submit_review_post():
 # 판매 요청
 @application.route("/reg_requests")
 def reg_requests():
-    return render_template("reg_requests.html")
+    nickname = session.get("nickname", "")
+    return render_template("reg_requests.html", nickname=nickname)
+
+@application.route("/submit_request_post", methods=['POST'])
+def submit_request_post():
+    data = request.form
+    print("🔍 selected_item_img:", data.get("selected_item_img")) 
+
+    selected_item_name = data.get("selected_item")
+    selected_item_img = data.get("selected_item_img", "")
+    item_info = DB.get_item_by_name(selected_item_name) or {}
+
+    if selected_item_name:
+        item_info["name"] = selected_item_name
+        if selected_item_img:
+            item_info["img_path"] = selected_item_img
+    if selected_item_img:
+        item_info["img_path"] = selected_item_img
+
+    request_info = {
+        "search": data.get("search", ""),
+        "nickname": data.get("nickname", ""),
+        "title": data.get("title", ""),
+        "content": data.get("content", ""),
+        "item": item_info,
+    }
+
+    new_id = DB.insert_request(request_info)
+    return redirect(url_for("request_detail", request_id=new_id))
+    
+@application.route("/request/<request_id>")
+def request_detail(request_id):
+    req_data = DB.get_request_by_id(request_id)
+    if not req_data:
+        return "해당 요청을 찾을 수 없습니다.", 404
+    return render_template("submit_request_result.html", req=req_data)
+
+@application.route("/api/items")
+def api_items():
+    # DB에서 전체 상품 리스트 가져오기
+    items = DB.get_item_names()
+    return {"items": items}
+
+# 판매 요청 조회 페이지 (request.html)
+@application.route("/request")
+def request_page():
+    page = request.args.get("page", 0, type=int)
+    per_page = 8
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    data = DB.get_requests()
+
+    count_map = {}
+    for req in data:
+        item = req.get("item", {})
+        name = item.get("name", "상품명 미상")
+        count_map[name] = count_map.get(name, 0) + 1
+
+    for req in data:
+        item = req.get("item", {})
+        name = item.get("name", "상품명 미상")
+        item["request_count"] = count_map.get(name, 1)
+        req["item"] = item
+    
+    data.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    
+    total_count = len(data)
+    data = data[start_idx:end_idx]
+    page_count = int((total_count / per_page) + 1)
+
+    return render_template(
+        "request.html",
+        datas=data,
+        total=total_count,
+        page=page,
+        page_count=page_count
+    )
 
 # 마이페이지
 @application.route("/mypage")
 def mypage():
     return render_template("mypage.html")
-
-# 판매 요청 조회 페이지 (request.html)
-@application.route("/request")
-def request_page():
-    return render_template("request.html")
 
 # 상세상품 (프론트엔드 화면 설계 확인용)
 # 수정X -> 백엔드에서 넘겨주는 화면은 submit_item_result.html 만들어져있음. -> 라우팅 따로 할 것

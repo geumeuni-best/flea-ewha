@@ -113,3 +113,12 @@ class DBhandler:
             if value['username'] == username:
                 return value
         return None
+    
+    # 판매요청등록 테이블에서 데이터 가져오기
+    def get_requests(self):
+        requests = self.db.child("request").get().val() or {}
+        result = []
+        for key, val in requests.items():
+            val["id"] = key
+            result.append(val)
+        return result

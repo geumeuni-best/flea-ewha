@@ -44,10 +44,11 @@ def reg_item_submit():
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
     image_file = request.files["image"]
-    image_file.save("static/image/{}".format(image_file.filename))
+    filename = image_file.filename
+    image_file.save(f"static/image/{filename}")
     data = request.form
-    DB.insert_item(data['name'], data, image_file.filename)
-    return render_template("submit_item_result.html", data = data, img_path = "static/image/{}".format(image_file.filename))
+    DB.insert_item(data['name'], data, f"image/{filename}")
+    return render_template("submit_item_result.html", data=data, img_path=f"static/image/{filename}")
 
 # 리뷰 등록
 @application.route("/reg_reviews")
@@ -102,13 +103,19 @@ def reg_requests():
 @application.route("/submit_request_post", methods=['POST'])
 def submit_request_post():
     data = request.form
+    print("🔍 selected_item_img:", data.get("selected_item_img")) 
 
-    selected_item_name = data.get("selected_item", "")
-    item_info = {}
+    selected_item_name = data.get("selected_item")
+    selected_item_img = data.get("selected_item_img", "")
+    item_info = DB.get_item_by_name(selected_item_name) or {}
 
     if selected_item_name:
         item_info = DB.get_item_by_name(selected_item_name) or {}
         item_info["name"] = selected_item_name
+        if selected_item_img:
+            item_info["img_path"] = selected_item_img
+    if selected_item_img:
+        item_info["img_path"] = selected_item_img
 
     request_info = {
         "search": data.get("search", ""),
@@ -134,15 +141,17 @@ def api_items():
     items = DB.get_item_names()
     return {"items": items}
 
+# 판매 요청 조회 페이지 (request.html)
+@application.route("/request")
+def request_page():
+    data = DB.get_requests()
+    tot_count = len(data)
+    return render_template("request.html", datas=data, total=tot_count) 
+
 # 마이페이지
 @application.route("/mypage")
 def mypage():
     return render_template("mypage.html")
-
-# 판매 요청 조회 페이지 (request.html)
-@application.route("/request")
-def request_page():
-    return render_template("request.html")
 
 # 상세상품 (프론트엔드 화면 설계 확인용)
 # 수정X -> 백엔드에서 넘겨주는 화면은 submit_item_result.html 만들어져있음. -> 라우팅 따로 할 것

@@ -8,6 +8,37 @@
 {% endblock head_extra %}
 
 {% block section %}
-  <h1>판매 요청 조회 화면</h1>
-{% endblock section %}
+  <div class="request-container">
+    {% if total > 0 %}
+      <h2>판매 요청 리스트 (총 {{ total }}개)</h2>
 
+      <div class="request-list">
+        {% for req in datas %}
+          <div class="request-card">
+            <h3 class="req-title">{{ req.title }}</h3>
+            <p class="req-meta">
+              <span class="nickname">작성자: {{ req.nickname }}</span> |
+              <span class="created">등록일: {{ req.created_at }}</span>
+            </p>
+
+            {% if req.item and req.item.img_path %}
+              <div class="req-image">
+                <img src="{{ url_for('static', filename=req.item.img_path) }}" alt="요청 상품 이미지">
+              </div>
+            {% else %}
+              <div class="req-image">
+                <img 
+                  src="{{ url_for('static', filename='image/no_image.png') }}" 
+                  alt="이미지 없음">
+              </div>
+            {% endif %}
+
+            <p class="req-content">{{ req.content }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>등록된 판매 요청이 없습니다.</p>
+    {% endif %}
+  </div>
+{% endblock section %}

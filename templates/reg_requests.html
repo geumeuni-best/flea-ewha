@@ -1,13 +1,19 @@
 <!-- 판매 요청 등록 화면 -->
 
-{% extends "index.html" %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLEA:EWHA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reg_requests.css') }}">
+  <script src="{{ url_for('static', filename='js/reg_requests.js') }}" defer></script>
+</head>
 
-{% block head_extra %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/reg_requests.css') }}">
-<script src="{{ url_for('static', filename='js/reg_requests.js') }}" defer></script>
-{% endblock head_extra %}
+<body>
+  {% extends "index.html" %}
+  {% block section %}
 
-{% block section %}
   <section class="reg-requests-section" aria-labelledby="reg-requests-title">
     <div class="form-wrap">
       <h1 id="reg-requests-title" class="reg-requests-title">판매 요청 등록</h1>
@@ -32,6 +38,7 @@
         <!-- 선택한 상품 -->
         <div class="form-row selected-item">
           <input type="hidden" id="selected_item" name="selected_item" value="">
+          <input type="hidden" id="selected_item_img" name="selected_item_img" value="">
           <label class="field-label">선택한 상품</label>
           <div class="item-preview">
             <img src="{{ url_for('static', filename='image/no_image.png') }}" alt="선택 상품 없음" class="product-img" id="product-img">
@@ -66,5 +73,7 @@
       </form>
     </div>
   </section>
-{% endblock section %}
 
+  {% endblock section %}
+</body>
+</html>

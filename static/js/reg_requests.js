@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".product-name").textContent = item.name;
     document.querySelector(".product-img").src = "/static/image/" + item.img_path;
     document.querySelector(".product-seller").textContent = "품절";
+    document.getElementById("selected_item_img").value = item.img_path.startsWith("image/")
+      ? item.img_path
+      : "image/" + item.img_path;
   }
 });
 
@@ -44,6 +47,9 @@ function updateSelectedItem(item) {
 
   document.querySelector(".stars").textContent = "★".repeat(item.stars || 0) + "☆".repeat(5 - (item.stars || 0));
   document.querySelector(".rating-value").textContent = "(" + (item.rating_count || 0) + ")";
+
+  document.getElementById("selected_item").value = item.name;
+  document.getElementById("selected_item_img").value = item.img_path;
 }
 
 function onSelectItem(itemName, itemData) {

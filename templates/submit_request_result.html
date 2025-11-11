@@ -33,7 +33,7 @@
       {% if item.img_path %}
         <img
           class="product-img"
-          src="{{ url_for('static', filename='image/' ~ item.img_path) }}"
+          src="{{ url_for('static', filename=item.img_path) }}"
           alt="연결 상품 이미지">
       {% else %}
         <img

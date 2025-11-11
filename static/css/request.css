@@ -1,0 +1,159 @@
+section.list-section {
+  max-width: 1100px;
+  margin: 40px auto;
+  font-family: Pretendard, sans-serif;
+}
+
+.list-title {
+  grid-column: 1 / -1;
+  margin-top: 30px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: -20px;
+  color: #000;
+}
+
+.sub-text {
+  grid-column: 1 / -1;
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.product-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 20px;
+}
+
+.product-item {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.product-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  margin-bottom: 10px;
+}
+
+.product-name {
+  text-align: left;
+  font-size: 16px;
+  color: #000;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.request-title-text {
+  text-align: left;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.request-register {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.register-btn {
+  background-color: #556B5B;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.register-btn:hover {
+  background-color: #435646;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 14px;
+  margin-bottom: 80px;
+}
+
+.pagination>a {
+  padding: 8px 12px;
+  color: #555;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid #000;
+}
+
+.pagination a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  color: #555;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.pagination span {
+  margin: 0 5px;
+  padding: 8px 12px;
+  color: #555;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination a:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .active {
+  background-color: #f1f1f1;
+  color: #000;
+  font-weight: 700;
+}
+
+.pagination span {
+  color: #999;
+}
+
+.img-wrap {
+  position: relative;
+}
+
+.img-wrap img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+}
+
+.request-count-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(84, 107, 91, 0.9);
+  color: #fff;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}

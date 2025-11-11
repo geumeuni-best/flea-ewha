@@ -1,44 +1,65 @@
-<!-- 판매 요청 조회 화면 -->
-
 {% extends "index.html" %}
 
 {% block head_extra %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/request.css') }}">
-<script src="{{ url_for('static', filename='js/request.js') }}" defer></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/request.css') }}">
+  <script src="{{ url_for('static', filename='js/request.js') }}" defer></script>
 {% endblock head_extra %}
 
 {% block section %}
-  <div class="request-container">
+<section class="list-section" aria-labelledby="request-title">
+  <div class="product-grid-container">
+    <h1 id="request-title" class="list-title">판매 요청 목록</h1>
+    <p class="sub-text">품절된 제품을 다시 사고 싶은 벗들이 남기는 요청 게시판입니다.</p>
+
     {% if total > 0 %}
-      <h2>판매 요청 리스트 (총 {{ total }}개)</h2>
-
-      <div class="request-list">
-        {% for req in datas %}
-          <div class="request-card">
-            <h3 class="req-title">{{ req.title }}</h3>
-            <p class="req-meta">
-              <span class="nickname">작성자: {{ req.nickname }}</span> |
-              <span class="created">등록일: {{ req.created_at }}</span>
-            </p>
-
-            {% if req.item and req.item.img_path %}
-              <div class="req-image">
-                <img src="{{ url_for('static', filename=req.item.img_path) }}" alt="요청 상품 이미지">
-              </div>
-            {% else %}
-              <div class="req-image">
-                <img 
-                  src="{{ url_for('static', filename='image/no_image.png') }}" 
-                  alt="이미지 없음">
-              </div>
+      {% for req in datas %}
+        {% set item_name = req.item.name if req.item and req.item.name else '상품명 미상' %}
+        {% set img_path = req.item.img_path if req.item and req.item.img_path else 'image/no_image.png' %}
+        {% set request_count = req.item.request_count if req.item and req.item.request_count else 1 %}
+        <div class="product-item" onclick="location.href='{{ url_for('request_detail', request_id=req.id) }}';">
+          <div class="img-wrap">
+            <img src="{{ url_for('static', filename=img_path) }}" alt="{{ item_name }}">
+            {% if request_count > 1 %}
+              <span class="request-count-badge">{{ request_count }}명 요청</span>
             {% endif %}
-
-            <p class="req-content">{{ req.content }}</p>
           </div>
-        {% endfor %}
-      </div>
+          <p class="product-name">{{ item_name }}</p>
+          <p class="request-title-text">{{ req.title }}</p>
+        </div>
+      {% endfor %}
     {% else %}
       <p>등록된 판매 요청이 없습니다.</p>
     {% endif %}
   </div>
+
+  <div class="request-register">
+    <button class="register-btn" onclick="location.href='{{ url_for('reg_requests') }}';">등록</button>
+  </div>
+
+  {% if page_count > 1 %}
+  <div class="pagination">
+    {% if page > 0 %}
+      <a href="{{ url_for('request_page', page=page-1) }}">&lt; Previous</a>
+    {% else %}
+      <span>&lt; Previous</span>
+    {% endif %}
+
+    <div class="page-numbers">
+      {% for i in range(page_count) %}
+        {% if i == page %}
+          <a href="{{ url_for('request_page', page=i) }}" class="active">{{ i + 1 }}</a>
+        {% else %}
+          <a href="{{ url_for('request_page', page=i) }}">{{ i + 1 }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if page < page_count - 1 %}
+      <a href="{{ url_for('request_page', page=page+1) }}">Next &gt;</a>
+    {% else %}
+      <span>Next &gt;</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</section>
 {% endblock section %}

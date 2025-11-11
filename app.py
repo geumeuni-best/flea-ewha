@@ -184,6 +184,17 @@ def register_user():
         flash("user id already exist!")
         return render_template("signup.html")
 
+@application.route('dynamicurl/<variable_name>/')
+def DynamicUrl(variable_name):
+    return str(variable_name)
+
+@application.route("/view_detail/<name>/")
+def view_item_detail(name):
+    print("###name:", name)
+    data = DB.get_item_byname(str(name))
+    print("####data:", data)
+    return render_template("submit_item_result_frontend.html", name=name, data=data)
+
 # ------------------------
 # Flask 실행
 # ------------------------

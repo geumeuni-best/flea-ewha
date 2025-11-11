@@ -140,7 +140,6 @@ def submit_request_post():
     item_info = DB.get_item_by_name(selected_item_name) or {}
 
     if selected_item_name:
-        item_info = DB.get_item_by_name(selected_item_name) or {}
         item_info["name"] = selected_item_name
         if selected_item_img:
             item_info["img_path"] = selected_item_img
@@ -155,8 +154,8 @@ def submit_request_post():
         "item": item_info,
     }
 
-    DB.insert_request(request_info)
-    return render_template("submit_request_result.html", req=request_info)
+    new_id = DB.insert_request(request_info)
+    return redirect(url_for("request_detail", request_id=new_id))
     
 @application.route("/request/<request_id>")
 def request_detail(request_id):
@@ -174,9 +173,38 @@ def api_items():
 # 판매 요청 조회 페이지 (request.html)
 @application.route("/request")
 def request_page():
+    page = request.args.get("page", 0, type=int)
+    per_page = 8
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
     data = DB.get_requests()
-    tot_count = len(data)
-    return render_template("request.html", datas=data, total=tot_count) 
+
+    count_map = {}
+    for req in data:
+        item = req.get("item", {})
+        name = item.get("name", "상품명 미상")
+        count_map[name] = count_map.get(name, 0) + 1
+
+    for req in data:
+        item = req.get("item", {})
+        name = item.get("name", "상품명 미상")
+        item["request_count"] = count_map.get(name, 1)
+        req["item"] = item
+    
+    data.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    
+    total_count = len(data)
+    data = data[start_idx:end_idx]
+    page_count = int((total_count / per_page) + 1)
+
+    return render_template(
+        "request.html",
+        datas=data,
+        total=total_count,
+        page=page,
+        page_count=page_count
+    )
 
 # 마이페이지
 @application.route("/mypage")

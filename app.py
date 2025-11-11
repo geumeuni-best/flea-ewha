@@ -125,6 +125,28 @@ def review_result_fe_page():
 def login():
     return render_template("login.html")
 
+# 로그인 처리
+@application.route("/login_confirm", methods=['POST'])
+def login_user():
+    data = request.form
+    username = data.get('username')
+    password = data.get('password')
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    if DB.find_user(username, password_hash):
+        user = DB.get_user_by_username(username)
+        session['id'] = username
+        session['nickname'] = user['nickname']
+        return redirect(url_for('home'))
+    else: 
+        flash("Wrong ID or PW!")
+        return render_template("login.html")
+
+# 로그아웃 처리
+@application.route("/logout")
+def logout_user():
+    session.clear()
+    return redirect(url_for('home'))
+
 # 회원가입
 @application.route("/signup")
 def signup():

@@ -16,7 +16,30 @@ def home():
 # 상품 조회
 @application.route("/list")
 def view_list():
-    return render_template("list.html")
+    page = request.args.get("page",0,type=int)
+    per_page=8  # 2 by 4로 수정
+    per_row=4
+    row_count = int(per_page/per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page+1)
+    data = DB.get_items()
+    item_counts = len(data)
+    data = dict(list(data.items())[start_idx:end_idx])
+    tot_count = len(data)
+    for i in range(row_count):
+        if(i == row_count - 1) and (tot_count%per_row!=0):
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
+        else:
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
+    return render_template(
+        "list.html",
+        datas = data.items(),
+        row1 = locals()['data_0'].items(),
+        row2 = locals()['data_1'].items(),
+        limit = per_page,
+        page=page,
+        page_count = int((item_counts/per_page)+1),
+        total=item_counts)
 
 # 리뷰 조회
 @application.route("/review")

@@ -11,7 +11,9 @@ DB = DBhandler()
 # 홈 
 @application.route("/")
 def home():
-    return render_template("index.html")
+    items = DB.get_items()
+    latest_items = list(items.items())[:4]
+    return render_template("index.html", latest_items=latest_items)
 
 # 상품 조회
 @application.route("/list")
@@ -67,11 +69,16 @@ def reg_item_submit():
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
+    data = request.form.to_dict()
+
     image_file = request.files["image"]
-    image_file.save("static/image/{}".format(image_file.filename))
-    data = request.form
-    DB.insert_item(data['name'], data, image_file.filename)
-    return render_template("submit_item_result.html", data = data, img_path = "static/image/{}".format(image_file.filename))
+    image_path = f"static/image/{image_file.filename}"
+    image_file.save(image_path)
+
+    data["img_path"] = image_path
+
+    DB.insert_item(data["name"], data, image_file.filename)
+    return render_template("submit_item_result.html", data=data)
 
 # 리뷰 등록
 @application.route("/reg_reviews")
@@ -214,6 +221,7 @@ def view_item_detail(name):
     print("###name:", name)
     data = DB.get_item_byname(str(name))
     print("####data:", data)
+    data["name"] = name
     return render_template("submit_item_result.html", name=name, data=data)
 
 # ------------------------

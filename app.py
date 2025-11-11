@@ -184,9 +184,6 @@ def register_user():
         flash("user id already exist!")
         return render_template("signup.html")
 
-@application.route('dynamicurl/<variable_name>/')
-def DynamicUrl(variable_name):
-    return str(variable_name)
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):

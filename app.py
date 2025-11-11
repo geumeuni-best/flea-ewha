@@ -11,12 +11,37 @@ DB = DBhandler()
 # 홈 
 @application.route("/")
 def home():
-    return render_template("index.html")
+    items = DB.get_items()
+    latest_items = list(items.items())[:4]
+    return render_template("index.html", latest_items=latest_items)
 
 # 상품 조회
 @application.route("/list")
 def view_list():
-    return render_template("list.html")
+    page = request.args.get("page",0,type=int)
+    per_page=8  # 2 by 4로 수정
+    per_row=4
+    row_count = int(per_page/per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page+1)
+    data = DB.get_items()
+    item_counts = len(data)
+    data = dict(list(data.items())[start_idx:end_idx])
+    tot_count = len(data)
+    for i in range(row_count):
+        if(i == row_count - 1) and (tot_count%per_row!=0):
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
+        else:
+            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
+    return render_template(
+        "list.html",
+        datas = data.items(),
+        row1 = locals()['data_0'].items(),
+        row2 = locals()['data_1'].items(),
+        limit = per_page,
+        page=page,
+        page_count = int((item_counts/per_page)+1),
+        total=item_counts)
 
 # 리뷰 조회
 @application.route("/review")
@@ -26,7 +51,8 @@ def view_review():
 # 상품 등록
 @application.route("/reg_items")
 def reg_items():
-    return render_template("reg_items.html")
+    username = session.get("id", "")
+    return render_template("reg_items.html", username=username)
 
 # 상품 등록 처리
 @application.route("/submit_item")
@@ -43,12 +69,16 @@ def reg_item_submit():
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
+    data = request.form.to_dict()
+
     image_file = request.files["image"]
-    filename = image_file.filename
-    image_file.save(f"static/image/{filename}")
-    data = request.form
-    DB.insert_item(data['name'], data, f"image/{filename}")
-    return render_template("submit_item_result.html", data=data, img_path=f"static/image/{filename}")
+    image_path = f"static/image/{image_file.filename}"
+    image_file.save(image_path)
+
+    data["img_path"] = image_path
+
+    DB.insert_item(data["name"], data, image_file.filename)
+    return render_template("submit_item_result.html", data=data)
 
 # 리뷰 등록
 @application.route("/reg_reviews")
@@ -228,6 +258,15 @@ def register_user():
     else:
         flash("user id already exist!")
         return render_template("signup.html")
+
+
+@application.route("/view_detail/<name>/")
+def view_item_detail(name):
+    print("###name:", name)
+    data = DB.get_item_byname(str(name))
+    print("####data:", data)
+    data["name"] = name
+    return render_template("submit_item_result.html", name=name, data=data)
 
 # ------------------------
 # Flask 실행

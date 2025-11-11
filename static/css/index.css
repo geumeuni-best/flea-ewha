@@ -231,6 +231,7 @@
   width: 1440px;
   margin: 0 auto;
   padding: 40px 176px 100px;
+  margin-bottom: -40px;
 }
 
 .section-title {

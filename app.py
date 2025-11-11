@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from database import DBhandler
 import hashlib
 import sys
@@ -209,7 +209,37 @@ def request_page():
 # 마이페이지
 @application.route("/mypage")
 def mypage():
-    return render_template("mypage.html")
+    if "id" not in session:
+        flash("로그인 후 이용 가능합니다.")
+        return redirect(url_for("login"))
+
+    user_id = session["id"]
+    user = DB.get_user_by_username(user_id)
+    purchases = DB.get_purchases(user_id)
+
+    enriched_purchases = []
+    for p in purchases:
+        item = DB.get_item_by_name(p["item_name"])
+        p["item"] = item or {}
+        enriched_purchases.append(p)
+
+    return render_template("mypage.html", user=user, purchases=enriched_purchases)
+
+# 구매 처리
+@application.route("/buy_item", methods=["POST"])
+def buy_item():
+    if "id" not in session:
+        return jsonify({"error": "로그인이 필요합니다."}), 401
+
+    user_id = session["id"]
+    item_name = request.form.get("item_name")
+    quantity = int(request.form.get("quantity", 1))
+    created_at = time.strftime("%Y-%m-%d %H:%M")
+
+    # DBhandler 내부에 purchase 저장용 메서드 추가
+    DB.add_purchase(user_id, item_name, quantity, created_at)
+
+    return jsonify({"message": "구매가 완료되었습니다!"})
 
 # 상세상품 (프론트엔드 화면 설계 확인용)
 # 수정X -> 백엔드에서 넘겨주는 화면은 submit_item_result.html 만들어져있음. -> 라우팅 따로 할 것

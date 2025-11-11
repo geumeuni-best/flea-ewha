@@ -99,6 +99,27 @@ class DBhandler:
                 target_value = res.val()
         return target_value
 
+    # 구매 관련
+    def add_purchase(self, user_id, item_name, quantity, created_at):
+        purchase_data = {
+            "item_name": item_name,
+            "quantity": quantity,
+            "created_at": created_at,
+        }
+        self.db.child("purchase").child(user_id).push(purchase_data)
+
+    def get_purchases(self, user_id):
+        data = self.db.child("purchase").child(user_id).get().val()
+        if not data:
+            return []
+
+        sorted_purchases = sorted(
+            data.values(),
+            key=lambda x: x.get("created_at", ""),
+            reverse=True
+        )
+        return sorted_purchases
+
     # 아래 코드는 판매 요청 관련 함수들
     def insert_request(self, data):
         item = data.get("item", {})

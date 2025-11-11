@@ -4,10 +4,46 @@
 
 {% block head_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mypage.css') }}">
-<script src="{{ url_for('static', filename='js/mypage.js') }}" defer></script>
 {% endblock head_extra %}
 
 {% block section %}
-  <h1>마이페이지 화면</h1>
-{% endblock section %}
+<section class="mypage-section" aria-labelledby="mypage-title">
+  <h1 id="mypage-title" class="mypage-title">마이페이지</h1>
 
+  <div class="profile-box">
+    <div class="profile-img-wrap">
+      <img src="{{ url_for('static', filename='image/default_profile.png') }}" alt="프로필 이미지">
+    </div>
+    <div class="profile-text-wrap">
+      <p class="nickname">{{ user.nickname }}</p>
+      <p class="user-id">ID: {{ user.username }}</p>
+      <p class="student-id">학번: {{ user.student_id }}</p>
+    </div>
+  </div>
+
+  <div class="purchase-history">
+    <h2>구매 내역</h2>
+    {% if purchases %}
+    <div class="purchase-grid">
+      {% for p in purchases %}
+      <div class="purchase-card">
+        {% if p.item.img_path %}
+        <img src="{{ url_for('static', filename='image/' ~ p.item.img_path) }}" alt="{{ p.item_name }}">
+        {% else %}
+        <img src="{{ url_for('static', filename='image/default_product.png') }}" alt="상품 이미지">
+        {% endif %}
+
+        <div class="purchase-info">
+          <p class="item-name">{{ p.item_name }}</p>
+          <button class="review-btn">리뷰쓰기</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>아직 구매 내역이 없습니다.</p>
+    {% endif %}
+  </div>
+
+</section>
+{% endblock section %}

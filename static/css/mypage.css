@@ -1,0 +1,123 @@
+section.mypage-section {
+  max-width: 1100px;
+  margin: 40px auto;
+  margin-bottom: 85px;
+}
+
+.mypage-title {
+  grid-column: 1 / -1;
+  margin-top: 70px;
+  margin-bottom: 23px;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: normal;
+  color: #000;
+}
+
+.profile-box {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 24px 30px;
+  background-color: #fafafa;
+}
+
+.profile-img-wrap img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.profile-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nickname {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.user-id,
+.student-id {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+.purchase-history {
+  margin-top: 50px;
+}
+
+.purchase-history h2 {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px;
+  margin-bottom: 20px;
+}
+
+.purchase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 20px;
+  margin-top: 25px;
+}
+
+.purchase-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.purchase-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.purchase-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 12px 14px;
+}
+
+.item-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.review-btn {
+  padding: 4px 12px;
+  font-size: 13px;
+  border: 1px solid #bfbfbf;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #444;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.review-btn:hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+}

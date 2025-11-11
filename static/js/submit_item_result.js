@@ -6,8 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalAmountEl = document.querySelector(".amount");
   const tsumEl = document.querySelector(".tsum");
 
+  // 상품 정보
   const priceText = totalAmountEl.textContent;
   const unitPrice = Number(priceText.replace(/[^0-9]/g, ""));
+  const itemName = document.querySelector("h1").innerText;
+
   let quantity = 1;
 
   function updateAmount() {
@@ -50,15 +53,41 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modal) hideModal();
   });
 
-  // 버튼 
+  // 버튼
   const cartBtn = document.querySelector(".cart");
   const buyBtn = document.querySelector(".buy");
 
+  // 장바구니 버튼
   cartBtn.addEventListener("click", () => {
     showModal("🛒 장바구니에 추가되었습니다.");
   });
 
-  buyBtn.addEventListener("click", () => {
-    showModal("💳 구매가 완료되었습니다.");
+  // 구매 버튼
+  buyBtn.addEventListener("click", async () => {
+    const formData = new FormData();
+    formData.append("item_name", itemName);
+    formData.append("quantity", quantity);
+
+    try {
+      const response = await fetch("/buy_item", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showModal(`💳 ${result.message || "구매가 완료되었습니다."}`);
+        modalClose.onclick = () => {
+          hideModal();
+          window.location.href = "/mypage";
+        };
+      } else {
+        showModal(result.error || "구매 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      showModal("서버 연결에 실패했습니다.");
+    }
   });
 });

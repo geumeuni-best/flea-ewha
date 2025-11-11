@@ -70,6 +70,21 @@ class DBhandler:
         print(data,img_path)
         return True
 
+    def get_items(self):
+        items = self.db.child("item").get().val()
+        return items
+
+    def get_item_byname(self, name):
+        items = self.db.child("item").get()
+        target_value=""
+        print("##########", name)
+        for res in items.each():
+            key_value = res.key()
+
+            if key_value == name:
+                target_value = res.val()
+        return target_value
+
     # 아래 코드는 판매 요청 관련 함수들
     def insert_request(self, data):
         request_info = {
@@ -97,10 +112,6 @@ class DBhandler:
                 "rating_count": val.get("rating_count", 0),
             })
         return result
-    
-    def get_items(self):
-        items = self.db.child("item").get().val()
-        return items
 
     def get_item_by_name(self, name):
         item = self.db.child("item").child(name).get()

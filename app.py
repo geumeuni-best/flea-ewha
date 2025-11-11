@@ -49,7 +49,8 @@ def view_review():
 # 상품 등록
 @application.route("/reg_items")
 def reg_items():
-    return render_template("reg_items.html")
+    username = session.get("id", "")
+    return render_template("reg_items.html", username=username)
 
 # 상품 등록 처리
 @application.route("/submit_item")
@@ -213,7 +214,7 @@ def view_item_detail(name):
     print("###name:", name)
     data = DB.get_item_byname(str(name))
     print("####data:", data)
-    return render_template("submit_item_result_frontend.html", name=name, data=data)
+    return render_template("submit_item_result.html", name=name, data=data)
 
 # ------------------------
 # Flask 실행

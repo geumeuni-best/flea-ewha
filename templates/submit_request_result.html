@@ -32,7 +32,7 @@
 
     <div class="product-info">
       <p class="product-name">{{ item.name or '상품명' }}</p>
-      <p class="product-seller">{{ item.status or '품절' }}</p>
+      <p class="product-seller">품절</p>
           <div class="product-rating">
             <span class="star filled">★</span>
             <span class="star filled">★</span>
@@ -41,6 +41,10 @@
             <span class="star filled">★</span>
           </div>
     </div>
+  </div>
+
+  <div class="back-btn-wrap">
+    <button class="back-btn" onclick="history.back()">목록으로</button>
   </div>
 </section>
 {% endblock %}

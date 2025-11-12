@@ -19,7 +19,7 @@
         <div class="product-item" onclick="location.href='{{ url_for('request_detail', request_id=req.id) }}';">
           <div class="img-wrap">
             <img src="{{ url_for('static', filename=img_path) }}" alt="{{ item_name }}">
-            {% if request_count > 1 %}
+            {% if request_count >= 1 %}
               <span class="request-count-badge">{{ request_count }}명 요청</span>
             {% endif %}
           </div>
@@ -33,7 +33,7 @@
   </div>
 
   <div class="request-register">
-    <button class="register-btn" onclick="location.href='{{ url_for('reg_requests') }}';">등록</button>
+    <button class="register-btn">등록</button>
   </div>
 
   {% if page_count > 1 %}
@@ -62,4 +62,16 @@
   </div>
   {% endif %}
 </section>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <p id="modal-text">로그인이 필요합니다.</p>
+    <div class="modal-buttons">
+      <button id="modal-login" class="hidden">로그인</button>
+      <button id="modal-confirm">닫기</button>
+    </div>
+  </div>
+</div>
+
+<input type="hidden" id="is_logged_in" value="{{ 'true' if session.get('user') else 'false' }}">
 {% endblock section %}

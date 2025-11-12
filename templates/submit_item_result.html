@@ -20,6 +20,8 @@
 
     <section class="product-details">
       <h1>{{ data.name }}</h1>
+      <input type="hidden" id="is_logged_in" value="{{ 'true' if session.get('user') else 'false' }}">
+      <input type="hidden" id="is_soldout" value="{{ 'true' if data.is_soldout else 'false' }}">
 
       <div class="rating-row">
         <div class="stars_all">★★★★☆</div>
@@ -71,7 +73,11 @@
             </div>
             <div class="summary">
               <span class="tsum">총 수량 1개 </span>
-              <span class="amount">{{ data.price }}원</span>
+              {% if data.is_soldout %}
+                <span class="amount">품절</span>
+              {% else %}
+                <span class="amount">{{ data.price }}원</span>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -81,13 +87,6 @@
         <div class="button-group">
           <button class="cart">장바구니 추가</button>
           <button class="buy">바로 구매하기</button>
-        </div>
-
-        <div id="modal" class="modal hidden">
-          <div class="modal-content">
-            <p id="modal-text"></p>
-            <button id="modal-close">확인</button>
-          </div>
         </div>
       </section>
     </section>
@@ -124,4 +123,14 @@
     </div>
   </section>
 </main>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <p id="modal-text">로그인이 필요합니다.</p>
+    <div class="modal-buttons">
+      <button id="modal-login">로그인</button>
+      <button id="modal-confirm">닫기</button>
+    </div>
+  </div>
+</div>
 {% endblock section %}

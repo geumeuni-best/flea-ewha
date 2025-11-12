@@ -170,6 +170,13 @@ def api_items():
     items = DB.get_item_names()
     return {"items": items}
 
+# 품절 변경
+@application.route("/item_soldout/<item_name>", methods=["POST"])
+def update_item_soldout(item_name):
+    is_soldout = request.form.get("is_soldout") == "true"
+    DB.update_item_soldout(item_name, is_soldout)
+    return jsonify({"message": f"{item_name}의 판매 상태가 {'품절' if is_soldout else '판매중'}으로 변경되었습니다."})
+
 # 판매 요청 조회 페이지 (request.html)
 @application.route("/request")
 def request_page():

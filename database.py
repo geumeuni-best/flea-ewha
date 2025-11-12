@@ -66,10 +66,18 @@ class DBhandler:
             "description": data['description'],
             "img_path": img_path,
             "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+
+            # 품절 관리를 위해 추가
+            "is_soldout": False,
         }
         self.db.child("item").child(name).set(item_info)
         print(data,img_path)
         return True
+    
+    # 품절 여부 변경
+    def update_item_soldout(self, item_name, is_soldout):
+        self.db.child("item").child(item_name).update({"is_soldout": is_soldout})
+        print(f"{item_name} 판매 상태 변경: {'품절' if is_soldout else '판매중'}")
 
     def get_items(self):
         items = self.db.child("item").get().val()
@@ -79,9 +87,10 @@ class DBhandler:
         def safe_timestamp(item):
             value = item[1].get("created_at", 0)
             try:
-                return float(value)
-            except (ValueError, TypeError):
-                return 0
+                # 문자열을 datetime으로 변환
+                return datetime.datetime.strptime(value, "%Y-%m-%d %H:%M")
+            except Exception:
+                return datetime.datetime.min
 
         sorted_items = dict(
             sorted(items.items(), key=safe_timestamp, reverse=True)

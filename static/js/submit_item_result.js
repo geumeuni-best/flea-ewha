@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     [cartBtn, buyBtn].forEach((btn) => {
       btn?.addEventListener("click", (e) => {
         e.preventDefault();
-        showModal("❌ 품절된 상품은 구매할 수 없습니다.");
+        showModal("품절된 상품은 구매할 수 없습니다.");
       });
     });
 

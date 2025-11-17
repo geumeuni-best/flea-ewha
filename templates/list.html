@@ -41,7 +41,7 @@
             <p class="product-price">{{ value.price }}원</p>
           {% endif %}
           <div class="product-rating">
-            {% set stars = value.stars or 5 %}
+            {% set stars = value.stars or 0 %}
             {% set rating_count = value.rating_count or 0 %}
             {% for i in range(1, 6) %}
               {% if i <= stars %}

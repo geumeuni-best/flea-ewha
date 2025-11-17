@@ -35,7 +35,9 @@
 
         <div class="purchase-info">
           <p class="item-name">{{ p.item_name }}</p>
-          <button class="review-btn">리뷰쓰기</button>
+          <button class="review-btn" onclick="location.href='{{ url_for('reg_reviews') }}?item_name={{ p.item_name }}'">
+            리뷰쓰기
+          </button>
         </div>
       </div>
       {% endfor %}

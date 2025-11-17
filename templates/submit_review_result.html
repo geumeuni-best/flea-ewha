@@ -1,12 +1,49 @@
-<!-- 리뷰 세부 화면 -->
-
 {% extends "index.html" %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/submit_review_result.css') }}">
-<script src="{{ url_for('static', filename='js/submit_review_result.js') }}" defer></script>
 {% endblock head_extra %}
 
 {% block section %}
-  <h1>리뷰 세부 화면</h1>
+<main class="product">
+  <section class="top-section">
+    <section class="product-image">
+      {% if review.img_path %}
+        <img src="/{{ review.img_path }}" alt="리뷰 이미지">
+      {% else %}
+        <img src="{{ url_for('static', filename='image/no_image.png') }}" alt="이미지 없음">
+      {% endif %}
+    </section>
+    <section class="product-details">
+      <div class="stars">
+        {% for i in range(review.rating) %}★{% endfor %}
+        {% for i in range(5 - review.rating) %}☆{% endfor %}
+        <span class="rating">{{ review.rating }}/5</span>
+      </div>
+      <p class="review-meta">
+        {{ review.reviewer_id }} · 
+        {{ review.created_at | datetimefilter }}
+      </p>
+      <section class="product-info">
+        <div class="divider"></div>
+        <ul>
+          <li>상품명 <strong>{{ review.item_name }}</strong></li>
+        </ul>
+        <div class="divider"></div>
+        <h1>{{ review.title }}</h1>
+        {% for line in review.content.split('\n') %}
+          <p class="cont">{{ line }}</p>
+        {% endfor %}
+        <br>
+        <div class="button-p">
+          <button 
+            class="prod" 
+            onclick="location.href='{{ url_for('view_item_detail', name=review.item_name) }}'">
+            상품 보러 가기
+          </button>
+        </div>
+      </section>
+    </section>
+  </section>
+</main>
 {% endblock section %}

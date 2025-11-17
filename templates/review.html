@@ -12,59 +12,54 @@
   <div class="product-grid-container">
     <h1 id="review-title" class="review-title">전체 리뷰 목록</h1>
 
-    <div class="product-item">
-      <img src="../static/image/빅사이즈 겨울 머플러 [오렌지].png" alt="빅사이즈 겨울 머플러 [오렌지]">
-      <p class="product-name">빅사이즈 겨울 머플러 [오렌지]</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/가죽 귀걸이.png" alt="가죽 귀걸이">
-      <p class="product-name">가죽 귀걸이</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/[수제] 저자극 천연 비누.png" alt="[수제] 저자극 천연 비누">
-      <p class="product-name">[수제] 저자극 천연 비누</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/포근한 스웨터.png" alt="포근한 스웨터">
-      <p class="product-name">포근한 스웨터</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/이화그린 코스터.png" alt="이화그린 코스터">
-      <p class="product-name">이화그린 코스터</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/니트 가방.png" alt="니트 가방">
-      <p class="product-name">니트 가방</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/코튼 뜨개 덧신.png" alt="코튼 뜨개 덧신">
-      <p class="product-name">코튼 뜨개 덧신</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
-    <div class="product-item">
-      <img src="../static/image/[수제] 실버 목걸이.png" alt="[수제] 실버 목걸이">
-      <p class="product-name">[수제] 실버 목걸이</p>
-      <p class="review-link"><a href="#">전체 리뷰 보러 가기</a></p>
-    </div>
+    {% if reviews %}
+      {% for r in reviews %}
+      <div class="product-item" onclick="location.href='{{ url_for('review_detail', item_name=r.item_name, review_id=r.review_id) }}'">
+        
+        {# 리뷰 이미지 있으면 보여주기 #}
+        {% if r.img_path %}
+          <img src="{{ url_for('static', filename='image/' ~ r.img_path.split('/')[-1]) }}" alt="{{ r.item_name }}">
+        {% else %}
+          <img src="{{ url_for('static', filename='image/no_image.png') }}" alt="no_image">
+        {% endif %}
+
+        <p class="product-name">{{ r.item_name }}</p>
+        <p class="review-link">
+          <a href="{{ url_for('review_detail', item_name=r.item_name, review_id=r.review_id) }}">
+            {{ r.title }}
+          </a>
+        </p>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>등록된 리뷰가 없습니다.</p>
+    {% endif %}
   </div>
+  
+  {% if page_count > 1 %}
   <div class="pagination">
-    <a href="#">&lt; Previous</a>
+    {% if page > 0 %}
+      <a href="{{ url_for('view_review', page=page-1) }}">&lt; Previous</a>
+    {% else %}
+      <span>&lt; Previous</span>
+    {% endif %}
+
     <div class="page-numbers">
-      <a href="#" class="active">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <span>...</span>
-      <a href="#">8</a>
-      <a href="#">9</a>
-      <a href="#">10</a>
+      {% for i in range(page_count) %}
+        {% if i == page %}
+          <a href="{{ url_for('view_review', page=i) }}" class="active">{{ i + 1 }}</a>
+        {% else %}
+          <a href="{{ url_for('view_review', page=i) }}">{{ i + 1 }}</a>
+        {% endif %}
+      {% endfor %}
     </div>
-    <a href="#">Next &gt;</a>
+
+    {% if page < page_count - 1 %}
+      <a href="{{ url_for('view_review', page=page+1) }}">Next &gt;</a>
+    {% else %}
+      <span>Next &gt;</span>
+    {% endif %}
   </div>
+  {% endif %}
 </section>
 {% endblock section %}

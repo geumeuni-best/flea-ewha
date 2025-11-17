@@ -3,10 +3,18 @@ from database import DBhandler
 import hashlib
 import sys
 import time
+from datetime import datetime
 
 application = Flask(__name__)
 application.config["SECRET_KEY"] = "helloosp"
 DB = DBhandler()
+
+@application.template_filter('datetimefilter')
+def datetimefilter(value):
+    try:
+        return datetime.fromtimestamp(value).strftime("%Y-%m-%d")
+    except:
+        return value
 
 # 홈 
 @application.route("/")
@@ -15,65 +23,91 @@ def home():
     latest_items = list(items.items())[:4]
 
     user_id = session.get("id", None)
-    if user_id:
-        updated_items = []
-        for key, value in latest_items:
-            heart_info = DB.get_heart_byname(user_id, key)
-            value["is_liked"] = (heart_info.get("interested") == "Y")
-            updated_items.append((key, value))
-        latest_items = updated_items
-    else:
-        updated_items = []
-        for key, value in latest_items:
-            value["is_liked"] = False
-            updated_items.append((key, value))
-        latest_items = updated_items
-    
-    return render_template("index.html", latest_items=latest_items)
+    updated_items = []
 
-# 상품 조회
-@application.route("/list")
-def view_list():
-    page = request.args.get("page",0,type=int)
-    per_page=8  # 2 by 4로 수정
-    per_row=4
-    row_count = int(per_page/per_row)
-    start_idx = per_page * page
-    end_idx = per_page * (page+1)
-    data = DB.get_items()
-    item_counts = len(data)
+    for key, value in latest_items:
 
-    # 좋아요 관련
-    user_id = session.get("id", None)
-    for key, value in data.items():
+        # 좋아요 여부
         if user_id:
             heart_info = DB.get_heart_byname(user_id, key)
             value["is_liked"] = (heart_info.get("interested") == "Y")
         else:
             value["is_liked"] = False
-    
+
+        # 리뷰 점수 계산
+        reviews_raw = DB.db.child("review").child(key).get().val()
+
+        if reviews_raw:
+            ratings = [r.get("rating", 0) for r in reviews_raw.values()]
+            value["rating_count"] = len(ratings)
+            value["stars"] = round(sum(ratings) / len(ratings))
+        else:
+            value["rating_count"] = 0
+            value["stars"] = 0
+
+        updated_items.append((key, value))
+
+    latest_items = updated_items
+
+    return render_template("index.html", latest_items=latest_items)
+
+# 상품 조회
+@application.route("/list")
+def view_list():
+    page = request.args.get("page", 0, type=int)
+    per_page = 8
+    per_row = 4
+    row_count = int(per_page / per_row)
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    data = DB.get_items()
+    item_counts = len(data)
+
+    user_id = session.get("id", None)
+
+    for key, value in data.items():
+
+        # 좋아요 여부
+        if user_id:
+            heart_info = DB.get_heart_byname(user_id, key)
+            value["is_liked"] = (heart_info.get("interested") == "Y")
+        else:
+            value["is_liked"] = False
+
+        # 리뷰 정보 가져오기
+        reviews_raw = DB.db.child("review").child(key).get().val()
+
+        if reviews_raw:
+            ratings = []
+            for _, r in reviews_raw.items():
+                ratings.append(r.get("rating", 0))
+
+            value["rating_count"] = len(ratings)
+            value["stars"] = round(sum(ratings) / len(ratings))
+        else:
+            value["rating_count"] = 0
+            value["stars"] = 0
+
     data = dict(list(data.items())[start_idx:end_idx])
     tot_count = len(data)
+
     for i in range(row_count):
-        if(i == row_count - 1) and (tot_count%per_row!=0):
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
+        if (i == row_count - 1) and (tot_count % per_row != 0):
+            locals()[f"data_{i}"] = dict(list(data.items())[i*per_row :])
         else:
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-    
+            locals()[f"data_{i}"] = dict(list(data.items())[i*per_row : (i+1)*per_row])
+
     return render_template(
         "list.html",
-        datas = data.items(),
-        row1 = locals()['data_0'].items(),
-        row2 = locals()['data_1'].items(),
-        limit = per_page,
+        datas=data.items(),
+        row1=locals()['data_0'].items(),
+        row2=locals()['data_1'].items(),
+        limit=per_page,
         page=page,
-        page_count = int((item_counts/per_page)+1),
-        total=item_counts)
-
-# 리뷰 조회
-@application.route("/review")
-def view_review():
-    return render_template("review.html")
+        page_count=int((item_counts/per_page)+1),
+        total=item_counts
+    )
 
 # 상품 등록
 @application.route("/reg_items")
@@ -138,36 +172,53 @@ def unlike(name):
 # 리뷰 등록
 @application.route("/reg_reviews")
 def reg_reviews():
-    return render_template("reg_reviews.html")
+    if "id" not in session:
+        flash("로그인이 필요합니다.")
+        return redirect(url_for("login"))
+
+    reviewer_id = session["id"]
+    item_name = request.args.get("item_name", "")
+
+    return render_template("reg_reviews.html", reviewer_id=reviewer_id, item_name=item_name)
 
 # 리뷰 등록 처리
 @application.route("/submit_review_post", methods=['POST'])
 def submit_review_post():
     form = request.form.to_dict()
 
-    reviewer_id = form.get("reviewer_id").strip()
-    item_name = form.get("item_name").strip()   
-    title = form.get("title").strip()
-    content = form.get("content").strip()
+    reviewer_id = form.get("reviewer_id", "").strip()
+    item_name = form.get("item_name", "").strip()
+    title = form.get("title", "").strip()
+    content = form.get("content", "").strip()
     rating_raw = form.get("rating")
 
+    # 간단한 유효성 검사 
     if not title:
         flash("리뷰 제목 입력은 필수입니다.", "error")
         return redirect(url_for("reg_reviews"))
-    if len(content)<20:
+    
+    if len(content) < 20:
         flash("리뷰 내용은 20자 이상 입력해주세요.", "error")
         return redirect(url_for("reg_reviews"))
+
     if not rating_raw:
         flash("별점을 선택해주세요.", "error")
         return redirect(url_for("reg_reviews"))
-    rating = int(rating_raw)
-    
+
+    try:
+        rating = int(rating_raw)
+    except ValueError:
+        flash("별점 값이 올바르지 않습니다.", "error")
+        return redirect(url_for("reg_reviews"))
+
+    # 이미지 처리
     img_path = None
     image_file = request.files.get("image")
     if image_file and image_file.filename:
-        image_file.save(f"static/image/{image_file.filename}")
         img_path = f"static/image/{image_file.filename}"
+        image_file.save(img_path)
 
+    # 리뷰 객체 생성 (DBhandler.insert_review과 호환되게)
     review = {
         "item_name": item_name,
         "reviewer_id": reviewer_id,
@@ -175,9 +226,57 @@ def submit_review_post():
         "content": content,
         "rating": rating,
         "img_path": img_path,
-        "created_at": int(time.time())
+        "created_at": int(time.time()),
     }
 
+    # DB에 저장 (database.DBhandler.insert_review 사용)
+    review_id = DB.insert_review(review)
+
+    flash("리뷰가 성공적으로 등록되었습니다!")
+    return redirect(url_for("review_detail", item_name=item_name, review_id=review_id))
+
+# 리뷰 상세 조회
+@application.route("/review/<item_name>/<review_id>")
+def review_detail(item_name, review_id):
+    data = DB.get_review(item_name, review_id)
+    if not data:
+        return "리뷰를 찾을 수 없습니다.", 404
+    return render_template("submit_review_result.html", review=data)
+
+# 리뷰 조회
+@application.route("/review")
+def view_review():
+    page = request.args.get("page", 0, type=int)
+    per_page = 8
+    start_idx = per_page * page
+    end_idx = per_page * (page + 1)
+
+    items = DB.get_items()
+    review_list = []
+
+    for item_name in items.keys():
+        reviews = DB.db.child("review").child(item_name).get().val()
+        if not reviews:
+            continue
+
+        for review_id, review in reviews.items():
+            review["review_id"] = review_id
+            review["item_name"] = item_name
+            review_list.append(review)
+
+    review_list.sort(key=lambda x: x.get("created_at", 0), reverse=True)
+
+    total_count = len(review_list)
+    sliced_reviews = review_list[start_idx:end_idx]
+    page_count = int((total_count / per_page) + 1)
+
+    return render_template(
+        "review.html",
+        reviews=sliced_reviews,
+        total=total_count,
+        page=page,
+        page_count=page_count
+    )
 
 # 판매 요청
 @application.route("/reg_requests")
@@ -217,7 +316,26 @@ def request_detail(request_id):
     req_data = DB.get_request_by_id(request_id)
     if not req_data:
         return "해당 요청을 찾을 수 없습니다.", 404
+
+    item = req_data.get("item", None)
+
+    # 리뷰 평균 계산
+    if item and item.get("name"):
+        item_name = item["name"]
+        reviews_raw = DB.db.child("review").child(item_name).get().val()
+
+        if reviews_raw:
+            ratings = [r.get("rating", 0) for r in reviews_raw.values()]
+            item["rating_count"] = len(ratings)
+            item["stars"] = round(sum(ratings) / len(ratings))
+        else:
+            item["rating_count"] = 0
+            item["stars"] = 0
+
+        req_data["item"] = item
+
     return render_template("submit_request_result.html", req=req_data)
+
 
 @application.route("/api/items")
 def api_items():
@@ -382,11 +500,33 @@ def register_user():
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
-    print("###name:", name)
     data = DB.get_item_byname(str(name))
-    print("####data:", data)
     data["name"] = name
-    return render_template("submit_item_result.html", name=name, data=data)
+
+    reviews_raw = DB.db.child("review").child(name).get().val()
+
+    latest_reviews = []
+    review_count = 0
+    avg_rating = 0
+
+    if reviews_raw:
+        for review_id, review in reviews_raw.items():
+            review["review_id"] = review_id
+            latest_reviews.append(review)
+
+        latest_reviews.sort(key=lambda x: x.get("created_at", 0), reverse=True)
+        latest_reviews_short = latest_reviews[:2]
+
+        review_count = len(latest_reviews)
+
+        ratings = [r.get("rating", 0) for r in latest_reviews]
+        avg_rating = round(sum(ratings) / len(ratings))
+
+    else:
+        latest_reviews_short = []
+
+    return render_template("submit_item_result.html", name=name, data=data, latest_reviews=latest_reviews_short, review_count=review_count, avg_rating=avg_rating)
+
 
 # ------------------------
 # Flask 실행

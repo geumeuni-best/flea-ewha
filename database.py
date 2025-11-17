@@ -129,6 +129,19 @@ class DBhandler:
         )
         return sorted_purchases
     
+    # 리뷰 관련
+    def insert_review(self, review):
+        item_name = review.get("item_name")
+        if not item_name:
+            return None
+
+        new_ref = self.db.child("review").child(item_name).push(review)
+        return new_ref["name"]
+    
+    def get_review(self, item_name, review_id):
+        res = self.db.child("review").child(item_name).child(review_id).get()
+        return res.val() if res.val() else None
+    
     # 좋아요 관련
     def get_heart_byname(self, uid, name):
         hearts = self.db.child("heart").child(uid).get()
@@ -172,16 +185,30 @@ class DBhandler:
     def get_item_names(self):
         items = self.db.child("item").get()
         result = []
+
         for item in items.each():
+            name = item.key()
             val = item.val()
+
+            # 리뷰 계산
+            reviews_raw = self.db.child("review").child(name).get().val()
+            if reviews_raw:
+                ratings = [r.get("rating", 0) for r in reviews_raw.values()]
+                stars = round(sum(ratings) / len(ratings))
+                rating_count = len(ratings)
+            else:
+                stars = 0
+                rating_count = 0
+
             result.append({
-                "name": item.key(),
+                "name": name,
                 "img_path": val.get("img_path", ""),
                 "status": val.get("status", ""),
                 "price": val.get("price", 0),
-                "stars": val.get("stars", 5),
-                "rating_count": val.get("rating_count", 0),
+                "stars": stars,
+                "rating_count": rating_count,
             })
+
         return result
 
     def get_item_by_name(self, name):

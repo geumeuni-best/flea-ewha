@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
-  <script src="{{ url_for('static', filename='js/list.js') }}" defer></script>
   {% block head_extra %}{% endblock head_extra %}
 </head>
 <body>
@@ -99,7 +98,7 @@
             </div>
 
             <p class="product-name">
-              <span class="new-badge">[new !]</span>
+              <span class="new-badge">[new!]</span>
               {{ key }}
             </p>
 

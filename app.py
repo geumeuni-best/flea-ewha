@@ -13,6 +13,22 @@ DB = DBhandler()
 def home():
     items = DB.get_items()
     latest_items = list(items.items())[:4]
+
+    user_id = session.get("id", None)
+    if user_id:
+        updated_items = []
+        for key, value in latest_items:
+            heart_info = DB.get_heart_byname(user_id, key)
+            value["is_liked"] = (heart_info.get("interested") == "Y")
+            updated_items.append((key, value))
+        latest_items = updated_items
+    else:
+        updated_items = []
+        for key, value in latest_items:
+            value["is_liked"] = False
+            updated_items.append((key, value))
+        latest_items = updated_items
+    
     return render_template("index.html", latest_items=latest_items)
 
 # 상품 조회

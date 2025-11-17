@@ -128,6 +128,27 @@ class DBhandler:
             reverse=True
         )
         return sorted_purchases
+    
+    # 좋아요 관련
+    def get_heart_byname(self, uid, name):
+        hearts = self.db.child("heart").child(uid).get()
+        target_value = {"interested": "N"}  # 기본값
+
+        if hearts.val() is None:
+            return target_value
+
+        for res in hearts.each():
+            if res.key() == name:
+                return res.val()
+
+        return target_value
+
+    def update_heart(self, user_id, isHeart, item):
+        heart_info = {
+            "interested": isHeart
+        }
+        self.db.child("heart").child(user_id).child(item).set(heart_info)
+        return True
 
     # 아래 코드는 판매 요청 관련 함수들
     def insert_request(self, data):

@@ -110,8 +110,8 @@ def submit_review_post():
     img_path = None
     image_file = request.files.get("image")
     if image_file and image_file.filename:
-        image_file.save(f"static/image/reviews/{image_file.filename}")
-        img_path = f"static/image/reviews/{image_file.filename}"
+        image_file.save(f"static/image/{image_file.filename}")
+        img_path = f"static/image/{image_file.filename}"
 
     review = {
         "item_name": item_name,

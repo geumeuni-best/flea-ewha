@@ -13,6 +13,22 @@ DB = DBhandler()
 def home():
     items = DB.get_items()
     latest_items = list(items.items())[:4]
+
+    user_id = session.get("id", None)
+    if user_id:
+        updated_items = []
+        for key, value in latest_items:
+            heart_info = DB.get_heart_byname(user_id, key)
+            value["is_liked"] = (heart_info.get("interested") == "Y")
+            updated_items.append((key, value))
+        latest_items = updated_items
+    else:
+        updated_items = []
+        for key, value in latest_items:
+            value["is_liked"] = False
+            updated_items.append((key, value))
+        latest_items = updated_items
+    
     return render_template("index.html", latest_items=latest_items)
 
 # 상품 조회
@@ -26,6 +42,16 @@ def view_list():
     end_idx = per_page * (page+1)
     data = DB.get_items()
     item_counts = len(data)
+
+    # 좋아요 관련
+    user_id = session.get("id", None)
+    for key, value in data.items():
+        if user_id:
+            heart_info = DB.get_heart_byname(user_id, key)
+            value["is_liked"] = (heart_info.get("interested") == "Y")
+        else:
+            value["is_liked"] = False
+    
     data = dict(list(data.items())[start_idx:end_idx])
     tot_count = len(data)
     for i in range(row_count):
@@ -33,6 +59,7 @@ def view_list():
             locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
         else:
             locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
+    
     return render_template(
         "list.html",
         datas = data.items(),
@@ -79,6 +106,34 @@ def reg_item_submit_post():
 
     DB.insert_item(data["name"], data, image_file.filename)
     return render_template("submit_item_result.html", data=data)
+
+# 좋아요
+@application.route('/show_heart/<name>/', methods=['GET'])
+def show_heart(name):
+    if "id" not in session:
+        return jsonify({"my_heart": {"interested": "N"}})
+
+    user_id = session['id']
+    my_heart = DB.get_heart_byname(user_id, name)
+    return jsonify({'my_heart': my_heart})
+
+@application.route('/like/<name>/', methods=['POST'])
+def like(name):
+    if "id" not in session:
+        return jsonify({"error": "로그인이 필요합니다."}), 401
+
+    user_id = session['id']
+    DB.update_heart(user_id, "Y", name)
+    return jsonify({'msg': '좋아요 완료!'})
+
+@application.route('/unlike/<name>/', methods=['POST'])
+def unlike(name):
+    if "id" not in session:
+        return jsonify({"error": "로그인이 필요합니다."}), 401
+
+    user_id = session['id']
+    DB.update_heart(user_id, "N", name)
+    return jsonify({'msg': '좋아요 취소!'})
 
 # 리뷰 등록
 @application.route("/reg_reviews")

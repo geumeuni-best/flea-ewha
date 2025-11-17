@@ -58,3 +58,10 @@ class DBhandler:
         self.db.child("item").child(name).set(item_info)
         print(data,img_path)
         return True
+    
+    # DB에 리뷰 저장 (생성된 리뷰의 ID 반환)
+    def insert_review(self, review_data):
+        new_ref = self.db.child("review").push(review_data)
+        return new_ref["name"]
+
+

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from database import DBhandler
 import hashlib
 import sys
+import time
 
 application = Flask(__name__)
 application.config["SECRET_KEY"] = "helloosp"
@@ -52,6 +53,69 @@ def reg_item_submit_post():
 @application.route("/reg_reviews")
 def reg_reviews():
     return render_template("reg_reviews.html")
+
+# 리뷰 등록 처리 (DB에 저장 후 결과 페이지로 이동)
+@application.route("/submit_review_post", methods=['POST'])
+def submit_review_post():
+    form = request.form.to_dict()
+
+    reviewer_id = form.get("reviewer_id", "").strip()
+    item_name = form.get("item_name", "").strip()
+    title = form.get("title", "").strip()
+    content = form.get("content", "").strip()
+    rating_raw = form.get("rating", "").strip()
+
+    # 간단한 유효성 검사 
+    if not title:
+        flash("리뷰 제목 입력은 필수입니다.", "error")
+        return redirect(url_for("reg_reviews"))
+    if len(content) < 20:
+        flash("리뷰 내용은 20자 이상 입력해주세요.", "error")
+        return redirect(url_for("reg_reviews"))
+    if not rating_raw:
+        flash("별점을 선택해주세요.", "error")
+        return redirect(url_for("reg_reviews"))
+
+    try:
+        rating = int(rating_raw)
+    except ValueError:
+        flash("별점 값이 올바르지 않습니다.", "error")
+        return redirect(url_for("reg_reviews"))
+
+    # 이미지 처리
+    img_path = None
+    image_file = request.files.get("image")
+    if image_file and image_file.filename:
+        save_path = f"static/image/{image_file.filename}"
+        image_file.save(save_path)
+        img_path = save_path
+
+    # 리뷰 객체 생성 (DBhandler.insert_review과 호환되게)
+    review = {
+        "item_name": item_name,
+        "reviewer_id": reviewer_id,
+        "title": title,
+        "content": content,
+        "rating": rating,
+        "img_path": img_path,
+        "created_at": int(time.time())
+    }
+
+    # DB에 저장 (database.DBhandler.insert_review 사용)
+    review_id = DB.insert_review(review)
+
+    # 저장된 리뷰의 ID로 결과 페이지로 이동 (네가 만들어둔 review_result 라우트 사용)
+    return redirect(url_for("review_result", review_id=review_id))
+
+
+# 리뷰 등록 결과
+@application.route("/review_result/<review_id>")
+def review_result(review_id):
+    review = DB.db.child("review").child(review_id).get().val()
+    if not review:
+        return "리뷰를 찾을 수 없습니다.", 404
+    return render_template("submit_review_result.html", review=review)
+
 
 # 판매 요청
 @application.route("/reg_requests")

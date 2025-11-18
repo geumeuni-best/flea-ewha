@@ -24,8 +24,10 @@
       <input type="hidden" id="is_soldout" value="{{ 'true' if data.is_soldout else 'false' }}">
 
       <div class="rating-row">
-        <div class="stars_all">★★★★☆</div>
-        <span class="review-count">(218)</span>
+        <div class="stars_all">
+          {{ "★" * avg_rating }}{{ "☆" * (5 - avg_rating) }}
+        </div>
+        <span class="review-count">({{ review_count }})</span>
       </div>
 
       <p class="price">
@@ -104,22 +106,28 @@
   <section class="review">
     <p class="new" style="font-size:25px; width:100%;">최신 리뷰</p>
 
-    <article>
-      <div class="stars">★★★★☆</div>
-      <h4>화여니 </h4>
-      <p>실물 색상은 화면보다 살짝 어두워요 핏은 얼굴에 딱 맞아서 좋아요 눈올 때 쓰려고 샀는데 따뜻해서 잘 산 템인듯 하네여,,</p>
-      <span class="date">2025.10.09</span>
-    </article>
+    {% if latest_reviews|length == 0 %}
+      <p style="color:#888; margin-top:10px;">아직 등록된 리뷰가 없습니다.</p>
 
-    <article>
-      <div class="stars">★★★★★</div>
-      <h4>공댕이</h4>
-      <p>귀까지 덮어주는 길이라서 딱 좋아요 폼폼볼도 크고 재질도 부드러워서 대만족입니당 귀엽기도 하고 키까지 커보이는 멋진 모자예요</p>
-      <span class="date">2025.10.08</span>
-    </article>
+    {% else %}
+      {% for r in latest_reviews %}
+      <article onclick="location.href='/review/{{ data.name }}/{{ r.review_id }}'" style="cursor:pointer;">
+        <div class="stars">
+          {{ "★" * r.rating }}{{ "☆" * (5 - r.rating) }}
+        </div>
+
+        <h4>{{ r.reviewer_id }}</h4>
+        <p>
+          {{ r.content[:45] }}{% if r.content|length > 45 %}...{% endif %}
+        </p>
+
+        <span class="date">{{ r.created_at | datetimefilter }}</span>
+      </article>
+      {% endfor %}
+    {% endif %}
 
     <div class="review-btn">
-      <button>전체 리뷰 보기</button>
+      <button onclick="location.href='/review?item_name={{ data.name }}'">전체 리뷰 보기</button>
     </div>
   </section>
 </main>

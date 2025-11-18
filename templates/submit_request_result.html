@@ -33,13 +33,20 @@
     <div class="product-info">
       <p class="product-name">{{ item.name or '상품명' }}</p>
       <p class="product-seller">품절</p>
-          <div class="product-rating">
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-            <span class="star filled">★</span>
-          </div>
+        {% set item = req.item or {} %}
+        {% set stars = item.stars or 0 %}
+        {% set rating_count = item.rating_count or 0 %}
+
+        <div class="product-rating">
+          {% for i in range(1, 6) %}
+            {% if i <= stars %}
+              <span class="star filled">★</span>
+            {% else %}
+              <span class="star empty">★</span>
+            {% endif %}
+          {% endfor %}
+          <span class="rating-count">({{ rating_count }})</span>
+        </div>
     </div>
   </div>
 

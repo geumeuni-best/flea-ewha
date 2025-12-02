@@ -1,4 +1,4 @@
-# 🛍️ FLEA:Ewha — 이화여대 수제품 거래 플랫폼
+# 🛍️ FLEA:EWHA — 이화여대 수제품 거래 플랫폼
 
 ## 👥 팀원
 |[설영은](https://github.com/0euun)| [고예빈](https://github.com/KoYebin) |[김유리](https://github.com/uri-git23)|

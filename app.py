@@ -9,6 +9,7 @@ application = Flask(__name__)
 application.config["SECRET_KEY"] = "helloosp"
 DB = DBhandler()
 
+# 템플릿 필터: timestamp -> 날짜 변환
 @application.template_filter('datetimefilter')
 def datetimefilter(value):
     try:
@@ -19,12 +20,15 @@ def datetimefilter(value):
 # 홈 
 @application.route("/")
 def home():
+    # 전체 상품 불러오기
     items = DB.get_items()
+    # 최근 4개만 추출
     latest_items = list(items.items())[:4]
 
     user_id = session.get("id", None)
     updated_items = []
 
+    # 좋아요 여부 + 리뷰 정보 추가
     for key, value in latest_items:
 
         # 좋아요 여부
@@ -54,6 +58,7 @@ def home():
 # 상품 조회
 @application.route("/list")
 def view_list():
+    # 페이징 정보
     page = request.args.get("page", 0, type=int)
     per_page = 8
     per_row = 4
@@ -66,6 +71,7 @@ def view_list():
 
     user_id = session.get("id", None)
 
+    # 상품에 좋아요 상태 + 리뷰 정보 추가
     for key, value in data.items():
 
         # 좋아요 여부
@@ -89,9 +95,11 @@ def view_list():
             value["rating_count"] = 0
             value["stars"] = 0
 
+    # 현재 페이지에 해당하는 데이터만 slice
     data = dict(list(data.items())[start_idx:end_idx])
     tot_count = len(data)
 
+    # row1, row2 형태로 전달 위한 분리
     for i in range(row_count):
         if (i == row_count - 1) and (tot_count % per_row != 0):
             locals()[f"data_{i}"] = dict(list(data.items())[i*per_row :])
@@ -132,16 +140,18 @@ def reg_item_submit():
 def reg_item_submit_post():
     data = request.form.to_dict()
 
+    # 이미지 파일 저장
     image_file = request.files["image"]
     image_path = f"static/image/{image_file.filename}"
     image_file.save(image_path)
 
     data["img_path"] = image_path
 
+    # DB 저장
     DB.insert_item(data["name"], data, image_file.filename)
     return render_template("submit_item_result.html", data=data, avg_rating=0, review_count=0, latest_reviews=[])
 
-# 좋아요
+# 특정 상품 좋아요 여부 조회
 @application.route('/show_heart/<name>/', methods=['GET'])
 def show_heart(name):
     if "id" not in session:
@@ -151,6 +161,7 @@ def show_heart(name):
     my_heart = DB.get_heart_byname(user_id, name)
     return jsonify({'my_heart': my_heart})
 
+# 좋아요 추가
 @application.route('/like/<name>/', methods=['POST'])
 def like(name):
     if "id" not in session:
@@ -160,6 +171,7 @@ def like(name):
     DB.update_heart(user_id, "Y", name)
     return jsonify({'msg': '좋아요 완료!'})
 
+# 좋아요 취소
 @application.route('/unlike/<name>/', methods=['POST'])
 def unlike(name):
     if "id" not in session:
@@ -251,19 +263,23 @@ def view_review():
     start_idx = per_page * page
     end_idx = per_page * (page + 1)
 
+    # 전체 상품 조회
     items = DB.get_items()
     review_list = []
 
+    # 모든 상품의 리뷰 수집
     for item_name in items.keys():
         reviews = DB.db.child("review").child(item_name).get().val()
         if not reviews:
             continue
 
+        # 리뷰 데이터를 리스트로 통합
         for review_id, review in reviews.items():
             review["review_id"] = review_id
             review["item_name"] = item_name
             review_list.append(review)
 
+    # 최신순 정렬
     review_list.sort(key=lambda x: x.get("created_at", 0), reverse=True)
 
     total_count = len(review_list)
@@ -284,15 +300,18 @@ def reg_requests():
     nickname = session.get("nickname", "")
     return render_template("reg_requests.html", nickname=nickname)
 
+# 판매 요청 등록 처리
 @application.route("/submit_request_post", methods=['POST'])
 def submit_request_post():
     data = request.form
     print("🔍 selected_item_img:", data.get("selected_item_img")) 
 
+    # 선택한 대표 상품
     selected_item_name = data.get("selected_item")
     selected_item_img = data.get("selected_item_img", "")
     item_info = DB.get_item_by_name(selected_item_name) or {}
 
+    # 선택한 상품명/이미지 추가
     if selected_item_name:
         item_info["name"] = selected_item_name
         if selected_item_img:
@@ -300,6 +319,7 @@ def submit_request_post():
     if selected_item_img:
         item_info["img_path"] = selected_item_img
 
+    # 요청 정보 구성
     request_info = {
         "search": data.get("search", ""),
         "nickname": data.get("nickname", ""),
@@ -310,7 +330,8 @@ def submit_request_post():
 
     new_id = DB.insert_request(request_info)
     return redirect(url_for("request_detail", request_id=new_id))
-    
+
+# 판매 요청 상세
 @application.route("/request/<request_id>")
 def request_detail(request_id):
     req_data = DB.get_request_by_id(request_id)
@@ -360,18 +381,21 @@ def request_page():
 
     data = DB.get_requests()
 
+    # 동일 상품 요청 횟수 계산
     count_map = {}
     for req in data:
         item = req.get("item", {})
         name = item.get("name", "상품명 미상")
         count_map[name] = count_map.get(name, 0) + 1
 
+    # 요청수 정보 추가
     for req in data:
         item = req.get("item", {})
         name = item.get("name", "상품명 미상")
         item["request_count"] = count_map.get(name, 1)
         req["item"] = item
     
+    # 최신순 정렬
     data.sort(key=lambda x: x.get("created_at", ""), reverse=True)
     
     total_count = len(data)
@@ -395,8 +419,11 @@ def mypage():
 
     user_id = session["id"]
     user = DB.get_user_by_username(user_id)
+
+    # 사용자 구매 내역 불러오기
     purchases = DB.get_purchases(user_id)
 
+    # 각 구매 정보에 상품 상세 붙이기
     enriched_purchases = []
     for p in purchases:
         item = DB.get_item_by_name(p["item_name"])
@@ -421,18 +448,6 @@ def buy_item():
 
     return jsonify({"message": "구매가 완료되었습니다!"})
 
-# 상세상품 (프론트엔드 화면 설계 확인용)
-# 수정X -> 백엔드에서 넘겨주는 화면은 submit_item_result.html 만들어져있음. -> 라우팅 따로 할 것
-@application.route("/item_result_fe")
-def item_result_fe_page():
-    return render_template("submit_item_result_frontend.html")
-
-# 상세리뷰 (프론트엔드 화면 설계 확인용)
-# 수정X -> 백엔드에서 넘겨주는 화면은 submit_review_result.html 만들어져있음. -> 라우팅 따로 할 것
-@application.route("/review_result_fe")
-def review_result_fe_page():
-    return render_template("submit_review_result_frontend.html")
-
 # 로그인
 @application.route("/login")
 def login():
@@ -444,7 +459,11 @@ def login_user():
     data = request.form
     username = data.get('username')
     password = data.get('password')
+
+    # 비밀번호 해싱
     password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    # 사용자 확인
     if DB.find_user(username, password_hash):
         user = DB.get_user_by_username(username)
         session['id'] = username
@@ -476,6 +495,7 @@ def register_user():
     phone = data.get('phone')
     student_id = data.get('student_id')
 
+    # 필수 입력 확인
     if not username or not password or not nickname or not email or not phone or not student_id:
         flash("아이디/비밀번호/닉네임은 필수입니다.")
         return redirect(url_for("signup"))
@@ -490,6 +510,7 @@ def register_user():
         "student_id": student_id,
     }
     
+    # DB에 저장
     if DB.insert_user(normalized, pw_hash):
         flash("success! now log in")
         return render_template("login.html")
@@ -512,22 +533,27 @@ def check_username():
     else:
         return jsonify({"ok": False, "msg": "이미 존재하는 아이디입니다."})
 
+# 상품 상세 조회
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
+    # 상품 정보 로드
     data = DB.get_item_byname(str(name))
     data["name"] = name
 
+    # 리뷰 읽기
     reviews_raw = DB.db.child("review").child(name).get().val()
 
     latest_reviews = []
     review_count = 0
     avg_rating = 0
 
+    # 리뷰 있는 경우 처리
     if reviews_raw:
         for review_id, review in reviews_raw.items():
             review["review_id"] = review_id
             latest_reviews.append(review)
 
+        # 최신 리뷰 2개만 가져오기
         latest_reviews.sort(key=lambda x: x.get("created_at", 0), reverse=True)
         latest_reviews_short = latest_reviews[:2]
 

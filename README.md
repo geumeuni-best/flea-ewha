@@ -74,3 +74,40 @@ FLEA:EWHA는 이화여대 학생들이 편리하게 직접 만든 수제 물품�
 
 ## 📝 기술 블로그
 https://velog.io/@fleaewha/posts
+
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/cc6eada6-74ee-4320-93c8-5759bcd06a7b" />
+<img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/4ab39e60-f230-429f-9309-dd13206014ce" />
+<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/b0e6cc5d-081e-4431-905c-21514bd65ef6" />
+<img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/a3be53d6-f858-4075-888a-52a718ea7041" />
+<img width="1920" height="1080" alt="7" src="https://github.com/user-attachments/assets/9a1c1a02-fc99-46c0-aaf9-d517351a119f" />
+<img width="1920" height="1080" alt="8" src="https://github.com/user-attachments/assets/2989e6f1-80ef-48d2-a0d5-44cc110c73b3" />
+<img width="1920" height="1080" alt="9" src="https://github.com/user-attachments/assets/b27d3e29-32f0-4306-b1c2-73644130af8d" />
+<img width="1920" height="1080" alt="10" src="https://github.com/user-attachments/assets/41cef874-17c6-462a-a691-ba45c2c9777e" />
+<img width="1920" height="1080" alt="11" src="https://github.com/user-attachments/assets/92700242-17bd-4840-96ba-178c13f3e514" />
+<img width="1920" height="1080" alt="12" src="https://github.com/user-attachments/assets/eb163222-5920-4dea-8a03-7d2b94a68fca" />
+<img width="1920" height="1080" alt="13" src="https://github.com/user-attachments/assets/45299c14-e385-4e4a-a52b-2bd8a7778132" />
+<img width="1920" height="1080" alt="14" src="https://github.com/user-attachments/assets/67eae285-37ee-433a-82f8-20eb46eb8597" />
+<img width="1920" height="1080" alt="15" src="https://github.com/user-attachments/assets/0144e31b-2d60-473d-90a0-36059f108502" />
+<img width="1920" height="1080" alt="16" src="https://github.com/user-attachments/assets/6d4b0d68-b878-4c7b-91d5-42d25a727895" />
+<img width="1920" height="1080" alt="17" src="https://github.com/user-attachments/assets/3ad634e8-1cb1-4808-9d8a-560c4e46b612" />
+<img width="1920" height="1080" alt="18" src="https://github.com/user-attachments/assets/8a3c595f-c17e-474f-8223-8f730cafcadd" />
+<img width="1920" height="1080" alt="19" src="https://github.com/user-attachments/assets/588498df-a3ea-422a-b74b-e5b914c70013" />
+<img width="1920" height="1080" alt="20" src="https://github.com/user-attachments/assets/de0296e3-698d-4381-b531-d5d4e796005d" />
+<img width="1920" height="1080" alt="21" src="https://github.com/user-attachments/assets/eae64981-5d26-4e9e-acb5-55cc9b59b04d" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

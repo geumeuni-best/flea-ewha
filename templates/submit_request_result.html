@@ -25,7 +25,7 @@
 
   <div class="related-product">
     {% if item.img_path %}
-      <img class="product-img" src="{{ url_for('static', filename=item.img_path) }}" alt="연결 상품 이미지">
+      <img class="product-img" src="{{ url_for('static', filename='image/' ~ item.img_path) }}" alt="연결 상품 이미지">
     {% else %}
       <img class="product-img" src="{{ url_for('static', filename='image/no_image.png') }}" alt="연결 상품 없음">
     {% endif %}

@@ -125,7 +125,7 @@ def reg_item_submit():
     description = request.args.get("description")
 
     print(seller_id, name, price, region, description)
-    return render_template("submit_item_result.html")
+    return render_template("submit_item_result.html", avg_rating=0, review_count=0, latest_reviews=[])
 
 # 이미지 업로드
 @application.route("/submit_item_post", methods=['POST'])
@@ -139,7 +139,7 @@ def reg_item_submit_post():
     data["img_path"] = image_path
 
     DB.insert_item(data["name"], data, image_file.filename)
-    return render_template("submit_item_result.html", data=data)
+    return render_template("submit_item_result.html", data=data, avg_rating=0, review_count=0, latest_reviews=[])
 
 # 좋아요
 @application.route('/show_heart/<name>/', methods=['GET'])
@@ -497,6 +497,20 @@ def register_user():
         flash("user id already exist!")
         return render_template("signup.html")
 
+# 아이디 중복 확인
+@application.route('/check_username', methods=['POST'])
+def check_username():
+    username = request.json.get("username", "")
+
+    if username == "":
+        return jsonify({"ok": False, "msg": "아이디를 입력해주세요."})
+
+    is_available = DB.user_duplicate_check(username)
+
+    if is_available:
+        return jsonify({"ok": True, "msg": "사용 가능한 아이디입니다."})
+    else:
+        return jsonify({"ok": False, "msg": "이미 존재하는 아이디입니다."})
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):

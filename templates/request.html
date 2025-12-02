@@ -14,19 +14,28 @@
     {% if total > 0 %}
       {% for req in datas %}
         {% set item_name = req.item.name if req.item and req.item.name else '상품명 미상' %}
-        {% set img_path = req.item.img_path if req.item and req.item.img_path else 'image/no_image.png' %}
         {% set request_count = req.item.request_count if req.item and req.item.request_count else 1 %}
+
         <div class="product-item" onclick="location.href='{{ url_for('request_detail', request_id=req.id) }}';">
           <div class="img-wrap">
-            <img src="{{ url_for('static', filename=img_path) }}" alt="{{ item_name }}">
+
+            {% if req.item and req.item.img_path %}
+              {% set filename = req.item.img_path.split('/')[-1] %}
+              <img src="{{ url_for('static', filename='image/' ~ filename) }}" alt="{{ item_name }}">
+            {% else %}
+              <img src="{{ url_for('static', filename='image/no_image.png') }}" alt="{{ item_name }}">
+            {% endif %}
+
             {% if request_count >= 1 %}
               <span class="request-count-badge">{{ request_count }}명 요청</span>
             {% endif %}
           </div>
+
           <p class="product-name">{{ item_name }}</p>
           <p class="request-title-text">{{ req.title }}</p>
         </div>
       {% endfor %}
+
     {% else %}
       <p>등록된 판매 요청이 없습니다.</p>
     {% endif %}
